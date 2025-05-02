@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - LifeFlow</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #f8d7da;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --gray: #adb5bd;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(29, 53, 87, 0.8), rgba(29, 53, 87, 0.8)), url('https://source.unsplash.com/random/1600x400/?hospital,medical') no-repeat center center/cover;
+            padding: 4rem 0;
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 4rem 0;
+        }
+
+        /* Registration Options */
+        .registration-options {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .option-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .donor-image {
+            background-image: url("/api/placeholder/400/200");
+        }
+
+        .recipient-image {
+            background-image: url("/api/placeholder/400/200");
+        }
+
+        .option-content {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .option-content h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .option-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .option-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Why Register Section */
+        .why-register {
+            background-color: white;
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .benefit-item h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .benefit-item p {
+            color: var(--gray);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-about {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--light);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .option-card {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="/api/placeholder/40/40" alt="LifeFlow Logo">
+                    <h1>LifeFlow</h1>
+                </div>
+                <div class="menu-toggle">
+                    <i>≡</i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                    <li><a href="find-donors.html">Find Donors</a></li>
+                    <li><a href="request.html">Request</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Join the LifeFlow Community</h1>
+            <p>Choose how you want to participate in saving lives</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="registration-options">
+                <!-- Donor Registration Option -->
+                <div class="option-card">
+                    <div class="option-image donor-image">
+                        <span class="option-badge">Donor</span>
+                    </div>
+                    <div class="option-content">
+                        <h3>Register as Donor</h3>
+                        <p>Join our network of blood donors and help save lives by donating blood to those in need.</p>
+                        <a href="register-donor.html" class="btn btn-primary">Become a Donor</a>
+                    </div>
+                </div>
+
+                <!-- Recipient Registration Option -->
+                <div class="option-card">
+                    <div class="option-image recipient-image">
+                        <span class="option-badge">Recipient</span>
+                    </div>
+                    <div class="option-content">
+                        <h3>Register as Recipient</h3>
+                        <p>Request blood donations from our community of verified donors for medical needs.</p>
+                        <a href="register-recepient.html" class="btn btn-primary">Request Blood</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Register Section -->
+            <section class="why-register">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Why Register with LifeFlow?</h2>
+                        <p>Join our community and be part of something meaningful</p>
+                    </div>
+
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">❤️</div>
+                            <h4>Save Lives</h4>
+                            <p>Your blood donation can save up to three lives with just one donation.</p>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🔍</div>
+                            <h4>Quick Matching</h4>
+                            <p>Our advanced system quickly matches donors with recipients in need.</p>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🔒</div>
+                            <h4>Secure Platform</h4>
+                            <p>Your data is encrypted and securely stored in our system.</p>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🌐</div>
+                            <h4>Nationwide Network</h4>
+                            <p>Access to donors and recipients across the country.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">LifeFlow</div>
+                    <p>Connecting blood donors with recipients to save lives across the country.</p>
+                    <div class="social-links">
+                        <a href="#"><span>f</span></a>
+                        <a href="#"><span>t</span></a>
+                        <a href="#"><span>in</span></a>
+                        <a href="#"><span>ig</span></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>Email: info@lifeflow.org</li>
+                        <li>Phone: +123 456 7890</li>
+                        <li>Address: 123 Main St, City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect - LifeFlow Blood Donation Management System</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #f8d7da;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --gray: #adb5bd;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #396785;
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218778;
+            text-decoration: none;
+        }
+
+        /* Page Header */
+        .page-header {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        /* Connect Section */
+        .connect-section {
+            padding: 4rem 0;
+        }
+
+        .connect-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .connect-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .connect-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .connect-card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            background-color: var(--primary-light);
+        }
+
+        .connect-card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .connect-card h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+        }
+
+        .connect-card p {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .connect-card .btn {
+            margin-top: auto;
+            align-self: flex-start;
+        }
+
+        .search-filter {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        .search-filter h3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            margin-bottom: 1rem;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .filter-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+
+        .filter-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .filter-actions {
+                flex-direction: column;
+            }
+            
+            .connect-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="/api/placeholder/40/40" alt="LifeFlow Logo">
+                    <h1>LifeFlow</h1>
+                </div>
+                <div class="menu-toggle">
+                    <i>≡</i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                    <li><a href="find-donors.html">Find Donors</a></li>
+                    <li><a href="request.html">Request</a></li>
+                    <li><a href="connect.html" class="active">Connect</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Connect With Donors & Recipients</h1>
+            <p>Find and connect with blood donors and recipients in your area</p>
+        </div>
+    </section>
+
+    <!-- Connect Section -->
+    <section class="connect-section">
+        <div class="container">
+            <div class="search-filter">
+                <h3>Find Connections</h3>
+                <form class="filter-form">
+                    <div class="filter-group">
+                        <label class="filter-label" for="blood-type">Blood Type</label>
+                        <select class="filter-control" id="blood-type">
+                            <option value="">All Types</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label" for="location">Location</label>
+                        <select class="filter-control" id="location">
+                            <option value="">All Locations</option>
+                            <option value="city1">City 1</option>
+                            <option value="city2">City 2</option>
+                            <option value="city3">City 3</option>
+                            <option value="city4">City 4</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label" for="distance">Distance (km)</label>
+                        <select class="filter-control" id="distance">
+                            <option value="5">5 km</option>
+                            <option value="10">10 km</option>
+                            <option value="20">20 km</option>
+                            <option value="50">50 km</option>
+                            <option value="100">100 km</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label" for="user-type">User Type</label>
+                        <select class="filter-control" id="user-type">
+                            <option value="">All Users</option>
+                            <option value="donor">Donors</option>
+                            <option value="recipient">Recipients</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button type="reset" class="btn btn-outline">Reset</button>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+
+            <h2>Available Connections</h2>
+            <div class="connect-cards">
+                <div class="connect-card">
+                    <div class="connect-card-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="connect-card-content">
+                        <h3>Fatima M.</h3>
+                        <p><strong>Blood Type:</strong> A+</p>
+                        <p><strong>Location:</strong> City 1</p>
+                        <p><strong>Available:</strong> Weekdays after 5pm</p>
+                        <p><strong>Last Donation:</strong> 2 months ago</p>
+                        <a href="#" class="btn btn-primary">Connect</a>
+                    </div>
+                </div>
+                <div class="connect-card">
+                    <div class="connect-card-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="connect-card-content">
+                        <h3>Sarah M.</h3>
+                        <p><strong>Blood Type:</strong> O-</p>
+                        <p><strong>Location:</strong> City 2</p>
+                        <p><strong>Available:</strong> Weekends</p>
+                        <p><strong>Last Donation:</strong> 3 weeks ago</p>
+                        <a href="#" class="btn btn-primary">Connect</a>
+                    </div>
+                </div>
+                <div class="connect-card">
+                    <div class="connect-card-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="connect-card-content">
+                        <h3>Abdullah T.</h3>
+                        <p><strong>Blood Type:</strong> B+</p>
+                        <p><strong>Location:</strong> City 1</p>
+                        <p><strong>Available:</strong> Anytime</p>
+                        <p><strong>Last Donation:</strong> 1 month ago</p>
+                        <a href="#" class="btn btn-primary">Connect</a>
+                    </div>
+                </div>
+                <div class="connect-card">
+                    <div class="connect-card-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="connect-card-content">
+                        <h3>Eiman R.</h3>
+                        <p><strong>Blood Type:</strong> AB+</p>
+                        <p><strong>Location:</strong> City 3</p>
+                        <p><strong>Available:</strong> Mornings</p>
+                        <p><strong>Last Donation:</strong> 6 months ago</p>
+                        <a href="#" class="btn btn-primary">Connect</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">LifeFlow</div>
+                    <p>Connecting blood donors with recipients to save lives across the country.</p>
+                    <div class="social-links">
+                        <a href="#"><span>f</span></a>
+                        <a href="#"><span>t</span></a>
+                        <a href="#"><span>in</span></a>
+                        <a href="#"><span>ig</span></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Blood Donation FAQs</a></li>
+                        <li><a href="#">Eligibility Criteria</a></li>
+                        <li><a href="#">Donation Process</a></li>
+                        <li><a href="#">Blood Types</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>Email: info@lifeflow.org</li>
+                        <li>Phone: +123 456 7890</li>
+                        <li>Address: 123 Main St, City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple toggle for mobile menu
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

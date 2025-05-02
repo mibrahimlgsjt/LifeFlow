@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register as Recipient - LifeFlow</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #f8d7da;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --gray: #adb5bd;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(29, 53, 87, 0.8), rgba(29, 53, 87, 0.8)), url('https://source.unsplash.com/random/1600x400/?hospital,medical') no-repeat center center/cover;
+            padding: 4rem 0;
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 4rem 0;
+        }
+
+        /* Registration Form */
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .required::after {
+            content: '*';
+            color: var(--primary);
+            margin-left: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.1);
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+
+        /* Blood Type Selector */
+        .blood-type-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .blood-type-btn {
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .blood-type-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .blood-type-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Checkbox and Radio Styles */
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-check-input {
+            margin-right: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-about {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--light);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .blood-type-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="/api/placeholder/40/40" alt="LifeFlow Logo">
+                    <h1>LifeFlow</h1>
+                </div>
+                <div class="menu-toggle">
+                    <i>≡</i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                    <li><a href="find-donors.html">Find Donors</a></li>
+                    <li><a href="request.html">Request</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Register as a Recipient</h1>
+            <p>Request blood donations from our network of verified donors</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="registration-container">
+                <div class="form-header">
+                    <h2>Recipient Registration Form</h2>
+                    <p>Please fill in your details accurately to help us match you with suitable donors</p>
+                </div>
+
+                <form id="registrationForm">
+                    <!-- Patient Information -->
+                    <div class="form-section">
+                        <h3>Patient Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label required">Patient First Name</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Patient Last Name</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Date of Birth</label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Gender</label>
+                                <select class="form-control" required>
+                                    <option value="">Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medical Information -->
+                    <div class="form-section">
+                        <h3>Medical Information</h3>
+                        <div class="form-group">
+                            <label class="form-label required">Blood Type Needed</label>
+                            <div class="blood-type-grid">
+                                <button type="button" class="blood-type-btn">A+</button>
+                                <button type="button" class="blood-type-btn">A-</button>
+                                <button type="button" class="blood-type-btn">B+</button>
+                                <button type="button" class="blood-type-btn">B-</button>
+                                <button type="button" class="blood-type-btn">AB+</button>
+                                <button type="button" class="blood-type-btn">AB-</button>
+                                <button type="button" class="blood-type-btn">O+</button>
+                                <button type="button" class="blood-type-btn">O-</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Units Required</label>
+                            <input type="number" class="form-control" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Required By Date</label>
+                            <input type="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Medical Condition/Reason for Need</label>
+                            <textarea class="form-control" rows="3" required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="form-section">
+                        <h3>Contact Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label required">Your Name (Requester)</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Your Relationship to Patient</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Email Address</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Phone Number</label>
+                                <input type="tel" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Hospital/Clinic Name</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Hospital Address</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="form-section">
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" required>
+                                <label>I confirm that this request is legitimate and for medical purposes</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" required>
+                                <label>I agree to the <a href="#">terms and conditions</a> of using this service</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">LifeFlow</div>
+                    <p>Connecting blood donors with recipients to save lives across the country.</p>
+                    <div class="social-links">
+                        <a href="#"><span>f</span></a>
+                        <a href="#"><span>t</span></a>
+                        <a href="#"><span>in</span></a>
+                        <a href="#"><span>ig</span></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Blood Donation FAQs</a></li>
+                        <li><a href="#">Eligibility Criteria</a></li>
+                        <li><a href="#">Donation Process</a></li>
+                        <li><a href="#">Blood Types</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>Email: info@lifeflow.org</li>
+                        <li>Phone: +123 456 7890</li>
+                        <li>Address: 123 Main St, City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Blood Type Selection
+        const bloodTypeBtns = document.querySelectorAll('.blood-type-btn');
+        bloodTypeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                bloodTypeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Form Submission
+        document.getElementById('registrationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Request submitted successfully! We will contact you shortly.');
+            // Here you would typically send the form data to your server
+            // window.location.href = 'request-success.html';
+        });
+    </script>
+</body>
+</html>

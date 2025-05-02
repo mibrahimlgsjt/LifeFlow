@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Blood - LifeFlow</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #f8d7da;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --gray: #adb5bd;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #248a7e;
+            text-decoration: none;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(29, 53, 87, 0.8), rgba(29, 53, 87, 0.8)), url('https://source.unsplash.com/random/1600x400/?blood,donation') no-repeat center center/cover;
+            padding: 4rem 0;
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 4rem 0;
+        }
+
+        /* Donation Process Section */
+        .donation-process {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step-card h3 {
+            margin-bottom: 1rem;
+        }
+
+        /* Locations Section */
+        .donation-locations {
+            background-color: white;
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .location-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .location-card {
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .location-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .location-details {
+            padding: 1.5rem;
+        }
+
+        .location-details h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .location-address {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .location-hours {
+            margin-bottom: 1.5rem;
+        }
+
+        .hours-list {
+            list-style: none;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+
+        /* FAQ Section */
+        .donation-faq {
+            margin-bottom: 4rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background-color: var(--light-gray);
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.2rem;
+        }
+
+        .faq-question.active::after {
+            content: '−';
+        }
+
+        .faq-answer {
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Schedule Section */
+        .donation-schedule {
+            background-color: var(--primary-light);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .schedule-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-about {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--light);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .step-card, .location-card {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="/api/placeholder/40/40" alt="LifeFlow Logo">
+                    <h1>LifeFlow</h1>
+                </div>
+                <div class="menu-toggle">
+                    <i>≡</i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="donate.html" class="active">Donate</a></li>
+                    <li><a href="find-donors.html">Find Donors</a></li>
+                    <li><a href="request.html">Request</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Donate Blood, Save Lives</h1>
+            <p>Your donation can make a difference in someone's life</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Donation Process Section -->
+        <section class="donation-process">
+            <div class="container">
+                <div class="section-title">
+                    <h2>The Donation Process</h2>
+                    <p>Simple steps to follow when donating blood</p>
+                </div>
+
+                <div class="process-steps">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Registration</h3>
+                        <p>Complete a donor registration form with your personal information and medical history.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Health Check</h3>
+                        <p>Our medical staff will check your temperature, blood pressure, pulse and hemoglobin levels.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Donation</h3>
+                        <p>The actual blood donation typically takes about 8-10 minutes. You'll be seated comfortably.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>Recovery</h3>
+                        <p>After donating, you'll be provided refreshments to help replenish fluids and nutrients.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donation Locations Section -->
+        <section class="donation-locations">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Donation Locations</h2>
+                    <p>Find a blood donation center near you</p>
+                </div>
+
+                <div class="location-cards">
+                    <div class="location-card">
+                        <div class="location-image" style="background-image: url('/api/placeholder/300/200')"></div>
+                        <div class="location-details">
+                            <h4>Downtown Medical Center</h4>
+                            <p class="location-address">123 Main Street, Downtown</p>
+                            <div class="location-hours">
+                                <h5>Opening Hours:</h5>
+                                <ul class="hours-list">
+                                    <li><span>Monday - Friday:</span> <span>8:00 AM - 8:00 PM</span></li>
+                                    <li><span>Saturday:</span> <span>9:00 AM - 5:00 PM</span></li>
+                                    <li><span>Sunday:</span> <span>10:00 AM - 4:00 PM</span></li>
+                                </ul>
+                            </div>
+                            <a href="#" class="btn btn-primary">Schedule Appointment</a>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <div class="location-image" style="background-image: url('/api/placeholder/300/200')"></div>
+                        <div class="location-details">
+                            <h4>Westside Community Hospital</h4>
+                            <p class="location-address">456 West Avenue, Westside</p>
+                            <div class="location-hours">
+                                <h5>Opening Hours:</h5>
+                                <ul class="hours-list">
+                                    <li><span>Monday - Friday:</span> <span>7:00 AM - 7:00 PM</span></li>
+                                    <li><span>Saturday:</span> <span>8:00 AM - 4:00 PM</span></li>
+                                    <li><span>Sunday:</span> <span>Closed</span></li>
+                                </ul>
+                            </div>
+                            <a href="#" class="btn btn-primary">Schedule Appointment</a>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <div class="location-image" style="background-image: url('/api/placeholder/300/200')"></div>
+                        <div class="location-details">
+                            <h4>Eastside Health Clinic</h4>
+                            <p class="location-address">789 East Boulevard, Eastside</p>
+                            <div class="location-hours">
+                                <h5>Opening Hours:</h5>
+                                <ul class="hours-list">
+                                    <li><span>Monday - Friday:</span> <span>9:00 AM - 6:00 PM</span></li>
+                                    <li><span>Saturday:</span> <span>10:00 AM - 3:00 PM</span></li>
+                                    <li><span>Sunday:</span> <span>Closed</span></li>
+                                </ul>
+                            </div>
+                            <a href="#" class="btn btn-primary">Schedule Appointment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="donation-faq">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Common questions about blood donation</p>
+                </div>
+
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">Who can donate blood?</div>
+                        <div class="faq-answer">
+                            Most people who are in good health, at least 17 years old (16 with parental consent in some states), and weigh at least 110 pounds can donate blood. However, there are some eligibility criteria based on your medical history, travel history, and current health status.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">How often can I donate blood?</div>
+                        <div class="faq-answer">
+                            You can donate whole blood every 56 days (about 8 weeks). If you donate red blood cells using an automated process (apheresis), you can donate every 112 days (about 16 weeks). For platelets, you can donate every 7 days, up to 24 times per year.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Is blood donation safe?</div>
+                        <div class="faq-answer">
+                            Yes, blood donation is very safe. All equipment used for blood donation is sterile and used only once. There is no risk of contracting any disease by donating blood. Some donors may experience slight dizziness or bruising at the needle site, but serious complications are extremely rare.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">How long does the donation process take?</div>
+                        <div class="faq-answer">
+                            The entire blood donation process from registration to recovery takes about an hour. The actual blood donation typically takes about 8-10 minutes. For platelet donation, the process can take up to 2 hours.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What should I do before donating blood?</div>
+                        <div class="faq-answer">
+                            Before donating blood, it's recommended to eat a healthy meal, be well hydrated, get a good night's sleep, and avoid fatty foods. Wear comfortable clothing with sleeves that can be rolled up above the elbow. Bring a valid ID and list of medications you're taking.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schedule Appointment Section -->
+        <section class="donation-schedule">
+            <div class="container">
+                <div class="schedule-content">
+                    <h2>Ready to Donate?</h2>
+                    <p>Schedule an appointment at one of our donation centers or find a blood drive near you.</p>
+                    <div style="margin-top: 2rem;">
+                        <a href="register-donor.html" class="btn btn-primary">Register as Donor</a>
+                        <a href="#" class="btn btn-success" style="margin-left: 1rem;">Schedule Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">LifeFlow</div>
+                    <p>Connecting blood donors with recipients to save lives across the country.</p>
+                    <div class="social-links">
+                        <a href="#"><span>f</span></a>
+                        <a href="#"><span>t</span></a>
+                        <a href="#"><span>in</span></a>
+                        <a href="#"><span>ig</span></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>Email: info@lifeflow.org</li>
+                        <li>Phone: +123 456 7890</li>
+                        <li>Address: 123 Main St, City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // FAQ Toggle
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isActive = question.classList.contains('active');
+                
+                // Close all other answers
+                document.querySelectorAll('.faq-question').forEach(q => {
+                    q.classList.remove('active');
+                    q.nextElementSibling.classList.remove('active');
+                });
+                
+                // Toggle current answer
+                if (!isActive) {
+                    question.classList.add('active');
+                    answer.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
