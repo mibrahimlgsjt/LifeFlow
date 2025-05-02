@@ -109,7 +109,40 @@ def blood_request():
     else:
         # Render the blood request form
         return render_template("request.html")
+    
+@app.route('/contactform', methods=['POST'])
+def handle_contact():
+    if request.method == 'POST':
+        form = request.form
 
+        # Extract contact details from form
+        contact_data = {
+            'name': form.get('name'),
+            'email': form.get('email'),
+            'subject': form.get('subject'),
+            'message': form.get('message')
+        }
+
+        # Insert into Supabase contact table
+        result = supabase.table("contact").insert(contact_data).execute()
+
+        print("Result object:", result)  # Inspect the entire result object
+
+        if result.data:
+            return redirect(url_for('serve_html', filename='thank-you.html'))
+        elif hasattr(result, 'error') and result.error:
+            print(f"Supabase error (result.error): {result.error}")
+            return f"Error: Could not send message. Please try again. Error: {result.error}", 500
+        elif result.status_code >= 400:
+            print(f"Supabase error (status code): {result.status_code} - {result.status_text}")
+            return f"Error: Could not send message. Please try again. Status: {result.status_code} - {result.status_text}", 500
+        else:
+            # If there's no data and no explicit error, something unexpected happened
+            print("Unexpected response:", result)
+            return "Error: Could not send message. Please try again.", 500
+
+    # If it's a GET request
+    return "Method not allowed", 405
 # Run the application
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
