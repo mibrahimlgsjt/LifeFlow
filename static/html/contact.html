@@ -492,40 +492,29 @@
     </section>
 
     <!-- Contact Form -->
-    <section class="form-section">
-        <div class="container">
-            <div class="form-container">
-                <div class="form-header">
-                    <h2>Send Us a Message</h2>
-                    <p>Fill out the form below and we'll get back to you as soon as possible.</p>
-                </div>
-                <form action="#" method="post">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name" class="form-label">Full Name</label>
-                            <input type="text" id="name" class="form<input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" id="email" class="form-control" placeholder="Enter your email address" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject" class="form-label">Subject</label>
-                        <input type="text" id="subject" class="form-control" placeholder="Enter subject" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea id="message" class="form-control" placeholder="Write your message here..." required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </div>
-                </form>
+    <form id="contactForm" action="/contactform" method="POST">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
             </div>
         </div>
-    </section>
-
+        <div class="form-group">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" id="subject" name="subject" class="form-control" placeholder="Enter subject" required>
+        </div>
+        <div class="form-group">
+            <label for="message" class="form-label">Message</label>
+            <textarea id="message" name="message" class="form-control" placeholder="Write your message here..." required></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+    </form>
     <!-- Map Section -->
     <section class="map-section">
         <div class="container">
