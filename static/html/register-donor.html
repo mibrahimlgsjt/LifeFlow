@@ -12,7 +12,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+    
         :root {
             --primary: #e63946;
             --primary-dark: #c1121f;
@@ -26,47 +26,47 @@
             --gray: #adb5bd;
             --light-gray: #f8f9fa;
         }
-
+    
         body {
             background-color: var(--light);
             color: var(--dark);
             line-height: 1.6;
         }
-
+    
         /* Typography */
         h1, h2, h3, h4, h5, h6 {
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--dark);
         }
-
+    
         h1 {
             font-size: 2.5rem;
         }
-
+    
         h2 {
             font-size: 2rem;
         }
-
+    
         h3 {
             font-size: 1.75rem;
         }
-
+    
         p {
             margin-bottom: 1rem;
         }
-
+    
         a {
             color: var(--secondary);
             text-decoration: none;
             transition: all 0.3s ease;
         }
-
+    
         a:hover {
             color: var(--primary);
             text-decoration: underline;
         }
-
+    
         /* Container */
         .container {
             width: 100%;
@@ -74,7 +74,7 @@
             margin: 0 auto;
             padding: 0 1rem;
         }
-
+    
         /* Header */
         header {
             background-color: white;
@@ -83,46 +83,46 @@
             top: 0;
             z-index: 1000;
         }
-
+    
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
         }
-
+    
         .logo {
             display: flex;
             align-items: center;
         }
-
+    
         .logo img {
             height: 40px;
             margin-right: 10px;
         }
-
+    
         .logo h1 {
             color: var(--primary);
             font-size: 1.8rem;
             margin: 0;
         }
-
+    
         .nav-links {
             display: flex;
             list-style: none;
         }
-
+    
         .nav-links li {
             margin-left: 1.5rem;
         }
-
+    
         .nav-links a {
             color: var(--dark);
             font-weight: 600;
             padding: 0.5rem 0;
             position: relative;
         }
-
+    
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -133,30 +133,30 @@
             background-color: var(--primary);
             transition: width 0.3s ease;
         }
-
+    
         .nav-links a:hover::after {
             width: 100%;
         }
-
+    
         .nav-links a.active {
             color: var(--primary);
         }
-
+    
         .nav-links a.active::after {
             width: 100%;
         }
-
+    
         .menu-toggle {
             display: none;
             cursor: pointer;
             font-size: 1.5rem;
         }
-
+    
         .user-actions {
             display: flex;
             align-items: center;
         }
-
+    
         .btn {
             display: inline-block;
             padding: 0.75rem 1.5rem;
@@ -167,29 +167,29 @@
             transition: all 0.3s ease;
             border: none;
         }
-
+    
         .btn-primary {
             background-color: var(--primary);
             color: white;
         }
-
+    
         .btn-primary:hover {
             background-color: var(--primary-dark);
             text-decoration: none;
         }
-
+    
         .btn-outline {
             background-color: transparent;
             border: 2px solid var(--primary);
             color: var(--primary);
         }
-
+    
         .btn-outline:hover {
             background-color: var(--primary);
             color: white;
             text-decoration: none;
         }
-
+    
         /* Page Header */
         .page-header {
             background: linear-gradient(rgba(29, 53, 87, 0.8), rgba(29, 53, 87, 0.8)), url('https://source.unsplash.com/random/1600x400/?hospital,medical') no-repeat center center/cover;
@@ -197,17 +197,131 @@
             color: white;
             text-align: center;
         }
-
+    
         .page-header h1 {
             color: white;
             margin-bottom: 1rem;
         }
-
+    
         /* Main Content */
         .main-content {
             padding: 4rem 0;
         }
-
+    
+        /* Registration Options */
+        .registration-options {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+    
+        .option-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+    
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+    
+        .option-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+    
+        .donor-image {
+            background-image: url("/api/placeholder/400/200");
+        }
+    
+        .recipient-image {
+            background-image: url("/api/placeholder/400/200");
+        }
+    
+        .option-content {
+            padding: 2rem;
+            text-align: center;
+        }
+    
+        .option-content h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+    
+        .option-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+    
+        .option-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+    
+        /* Why Register Section */
+        .why-register {
+            background-color: white;
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+    
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+    
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+    
+        .benefit-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+    
+        .benefit-item h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+    
+        .benefit-item p {
+            color: var(--gray);
+        }
+    
         /* Registration Form */
         .registration-container {
             max-width: 800px;
@@ -217,47 +331,47 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 2rem;
         }
-
+    
         .form-header {
             text-align: center;
             margin-bottom: 2rem;
         }
-
+    
         .form-section {
             margin-bottom: 2rem;
             padding-bottom: 2rem;
             border-bottom: 1px solid var(--light-gray);
         }
-
+    
         .form-section:last-child {
             border-bottom: none;
             margin-bottom: 0;
             padding-bottom: 0;
         }
-
+    
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
-
+    
         .form-group {
             margin-bottom: 1.5rem;
         }
-
+    
         .form-label {
             display: block;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--dark);
         }
-
+    
         .required::after {
             content: '*';
             color: var(--primary);
             margin-left: 4px;
         }
-
+    
         .form-control {
             width: 100%;
             padding: 0.75rem;
@@ -266,26 +380,26 @@
             font-size: 1rem;
             transition: all 0.3s ease;
         }
-
+    
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.1);
         }
-
+    
         .form-text {
             font-size: 0.875rem;
             color: var(--gray);
             margin-top: 0.25rem;
         }
-
+    
         /* Blood Type Selector */
         .blood-type-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 0.5rem;
         }
-
+    
         .blood-type-btn {
             padding: 0.75rem;
             border: 1px solid var(--gray);
@@ -295,28 +409,28 @@
             font-weight: 600;
             transition: all 0.3s ease;
         }
-
+    
         .blood-type-btn:hover {
             border-color: var(--primary);
         }
-
+    
         .blood-type-btn.active {
             background-color: var(--primary);
             color: white;
             border-color: var(--primary);
         }
-
+    
         /* Checkbox and Radio Styles */
         .form-check {
             display: flex;
             align-items: center;
             margin-bottom: 0.5rem;
         }
-
+    
         .form-check-input {
             margin-right: 0.5rem;
         }
-
+    
         /* Footer */
         footer {
             background-color: var(--dark);
@@ -324,53 +438,53 @@
             padding: 4rem 0 2rem;
             margin-top: 4rem;
         }
-
+    
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
         }
-
+    
         .footer-about {
             display: flex;
             flex-direction: column;
         }
-
+    
         .footer-logo {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: white;
         }
-
+    
         .footer-links h3 {
             font-size: 1.2rem;
             margin-bottom: 1.5rem;
             color: white;
         }
-
+    
         .footer-links ul {
             list-style: none;
         }
-
+    
         .footer-links li {
             margin-bottom: 0.5rem;
         }
-
+    
         .footer-links a {
             color: var(--light);
         }
-
+    
         .footer-links a:hover {
             color: var(--primary);
         }
-
+    
         .social-links {
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
         }
-
+    
         .social-links a {
             display: inline-flex;
             align-items: center;
@@ -382,25 +496,25 @@
             color: white;
             transition: all 0.3s ease;
         }
-
+    
         .social-links a:hover {
             background-color: var(--primary);
             transform: translateY(-3px);
         }
-
+    
         .footer-bottom {
             padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
             color: var(--light);
         }
-
+    
         /* Responsive Design */
         @media (max-width: 768px) {
             .menu-toggle {
                 display: block;
             }
-
+    
             .nav-links {
                 position: fixed;
                 top: 70px;
@@ -413,15 +527,19 @@
                 padding: 2rem 0;
                 transition: left 0.3s ease;
             }
-
+    
             .nav-links.active {
                 left: 0;
             }
-
+    
             .nav-links li {
                 margin: 1rem 0;
             }
-
+    
+            .option-card {
+                max-width: 100%;
+            }
+    
             .blood-type-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -429,7 +547,30 @@
     </style>
 </head>
 <body>
-    <!-- [Header content remains the same] -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="/api/placeholder/40/40" alt="LifeFlow Logo">
+                    <h1>LifeFlow</h1>
+                </div>
+                <div class="menu-toggle">
+                    <i>≡</i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                    <li><a href="find-donors.html">Find Donors</a></li>
+                    <li><a href="request.html">Request</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
 
     <main class="main-content">
         <div class="container">
@@ -492,7 +633,6 @@
                             <div class="form-group">
                                 <label class="form-label required">Province</label>
                                 <select class="form-control" name="province" required>
-                                    <option value="">Select province</option>
                                     <option value="Punjab">Punjab</option>
                                     <option value="Sindh">Sindh</option>
                                     <option value="KPK">KPK</option>
@@ -523,7 +663,6 @@
                         <div class="form-group">
                             <label class="form-label required">Blood Type</label>
                             <select class="form-control" name="blood_type" required>
-                                <option value="">Select blood type</option>
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
                                 <option value="B+">B+</option>
@@ -589,22 +728,5 @@
 
     <!-- [Footer content remains the same] -->
 
-    <script>
-        // Mobile Menu Toggle
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-
-        // Form validation can be added here if needed
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            // Add any client-side validation here
-            // Example: Validate phone number format
-            const phone = document.querySelector('input[name="phone"]').value;
-            if (!/^\d{10}$/.test(phone)) {
-                alert('Please enter a valid 10-digit phone number');
-                e.preventDefault();
-            }
-        });
-    </script>
 </body>
 </html>
