@@ -143,6 +143,34 @@ def handle_contact():
 
     # If it's a GET request
     return "Method not allowed", 405
+
+#find-donors.html route
+@app.route('/find-donors')
+def find_donors_page():
+    return render_template('find-donors.html') # You might still be serving the base HTML this way
+
+@app.route('/search_donors', methods=['POST'])
+def search_donors():
+    blood_type = request.form.get('blood_type')
+    city = request.form.get('city')
+    province = request.form.get('province')
+
+    query = supabase.table("donors").select("*")
+    if blood_type:
+        query = query.eq("blood_type", blood_type)
+    if city:
+        query = query.ilike("city", f"%{city}%")
+    if province and province != "Select Province":
+        query = query.eq("province", province)
+
+    try:
+        response = query.execute()
+        donors_data = response.data
+        return jsonify(donors=donors_data) # Return the data as JSON
+    except Exception as e:
+        print(f"Error fetching donors: {e}")
+        return jsonify(error="Failed to retrieve donors."), 500 # Return an error with a status code
+
 # Run the application
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
