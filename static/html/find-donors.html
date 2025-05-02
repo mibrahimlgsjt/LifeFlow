@@ -1,877 +1,905 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Blood Donors - LifeFlow</title>
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Blood Donors - LifeFlow</title></head>
+<style>
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        :root {
-            --primary: #e63946;
-            --primary-dark: #c1121f;
-            --primary-light: #f8d7da;
-            --secondary: #457b9d;
-            --light: #f1faee;
-            --dark: #1d3557;
-            --success: #2a9d8f;
-            --warning: #e9c46a;
-            --danger: #e76f51;
-            --gray: #adb5bd;
-            --light-gray: #f8f9fa;
-        }
+    :root {
+        --primary: #e63946;
+        --primary-dark: #c1121f;
+        --primary-light: #f8d7da;
+        --secondary: #457b9d;
+        --light: #f1faee;
+        --dark: #1d3557;
+        --success: #2a9d8f;
+        --warning: #e9c46a;
+        --danger: #e76f51;
+        --gray: #adb5bd;
+        --light-gray: #f8f9fa;
+    }
 
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-        }
+    body {
+        background-color: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+    }
 
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 {
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
 
-        h1 {
-            font-size: 2.5rem;
-        }
+    h1 {
+        font-size: 2.5rem;
+    }
 
-        h2 {
-            font-size: 2rem;
-        }
+    h2 {
+        font-size: 2rem;
+    }
 
-        h3 {
-            font-size: 1.75rem;
-        }
+    h3 {
+        font-size: 1.75rem;
+    }
 
-        p {
-            margin-bottom: 1rem;
-        }
+    p {
+        margin-bottom: 1rem;
+    }
 
-        a {
-            color: var(--secondary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
+    a {
+        color: var(--secondary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
 
-        a:hover {
-            color: var(--primary);
-            text-decoration: underline;
-        }
+    a:hover {
+        color: var(--primary);
+        text-decoration: underline;
+    }
 
-        /* Container */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
+    /* Container */
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
 
-        /* Header */
-        header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    /* Header */
+    header {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+    }
 
-        .logo {
-            display: flex;
-            align-items: center;
-        }
+    .logo {
+        display: flex;
+        align-items: center;
+    }
 
-        .logo img {
-            height: 40px;
-            margin-right: 10px;
-        }
+    .logo img {
+        height: 40px;
+        margin-right: 10px;
+    }
 
-        .logo h1 {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin: 0;
+    .logo h1 {
+        color: var(--primary);
+        font-size: 1.8rem;
+        margin: 0;
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+    }
+
+    .nav-links li {
+        margin-left: 1.5rem;
+    }
+
+    .nav-links a {
+        color: var(--dark);
+        font-weight: 600;
+        padding: 0.5rem 0;
+        position: relative;
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: var(--primary);
+        transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+
+    .nav-links a.active {
+        color: var(--primary);
+    }
+
+    .nav-links a.active::after {
+        width: 100%;
+    }
+
+    .menu-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    .user-actions {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 600;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-primary {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        text-decoration: none;
+    }
+
+    .btn-outline {
+        background-color: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+    }
+
+    .btn-outline:hover {
+        background-color: var(--primary);
+        color: white;
+        text-decoration: none;
+    }
+
+    /* Page Header */
+    .page-header {
+        background: linear-gradient(rgba(29, 53, 87, 0.8), rgba(29, 53, 87, 0.8)), url('https://source.unsplash.com/random/1600x400/?hospital,blood') no-repeat center center/cover;
+        padding: 4rem 0;
+        color: white;
+        text-align: center;
+    }
+
+    .page-header h1 {
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding: 4rem 0;
+    }
+
+    /* Emergency Banner */
+    .emergency-banner {
+        background-color: var(--primary-light);
+        border: 1px solid var(--primary);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .emergency-icon {
+        font-size: 2rem;
+        color: var(--primary);
+    }
+
+    .emergency-content h3 {
+        color: var(--primary-dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .emergency-content p {
+        color: var(--primary-dark);
+        margin: 0;
+    }
+
+    .emergency-action {
+        margin-left: auto;
+    }
+
+    /* Search Form */
+    .search-container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+
+    .search-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--dark);
+    }
+
+    .form-control {
+        padding: 0.75rem;
+        border: 1px solid var(--gray);
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.1);
+    }
+
+    /* Blood Type Selector */
+    .blood-type-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+    }
+
+    .blood-type-btn {
+        padding: 0.75rem;
+        border: 1px solid var(--gray);
+        border-radius: 4px;
+        background: none;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .blood-type-btn:hover {
+        border-color: var(--primary);
+    }
+
+    .blood-type-btn.active {
+        background-color: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    /* Results Section */
+    .results-container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .donor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .donor-card {
+        border: 1px solid var(--gray);
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .donor-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .donor-header {
+        background-color: var(--light);
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--gray);
+    }
+
+    .donor-name {
+        font-weight: 600;
+        color: var(--dark);
+    }
+
+    .blood-type-badge {
+        background-color: var(--primary);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    .donor-info {
+        padding: 1rem;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        color: var(--dark);
+    }
+
+    .donor-footer {
+        padding: 1rem;
+        border-top: 1px solid var(--gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .availability {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .availability.available {
+        color: var(--success);
+    }
+
+    .availability.unavailable {
+        color: var(--danger);
+    }
+
+    .availability-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    .available .availability-dot {
+        background-color: var(--success);
+    }
+
+    .unavailable .availability-dot {
+        background-color: var(--danger);
+    }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .page-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--gray);
+        border-radius: 4px;
+        background: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .page-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .page-btn.active {
+        background-color: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    /* Footer */
+    footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 4rem 0 2rem;
+        margin-top: 4rem;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footer-about {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer-logo {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .footer-links h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+
+    .footer-links ul {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+        color: var(--light);
+    }
+
+    .footer-links a:hover {
+        color: var(--primary);
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+        background-color: var(--primary);
+        transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+        color: var(--light);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: block;
         }
 
         .nav-links {
-            display: flex;
-            list-style: none;
+            position: fixed;
+            top: 70px;
+            left: -100%;
+            width: 100%;
+            height: calc(100vh - 70px);
+            background-color: white;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+            transition: left 0.3s ease;
+        }
+
+        .nav-links.active {
+            left: 0;
         }
 
         .nav-links li {
-            margin-left: 1.5rem;
+            margin: 1rem 0;
         }
 
-        .nav-links a {
-            color: var(--dark);
-            font-weight: 600;
-            padding: 0.5rem 0;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links a.active {
-            color: var(--primary);
-        }
-
-        .nav-links a.active::after {
-            width: 100%;
-        }
-
-        .menu-toggle {
-            display: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        .user-actions {
-            display: flex;
-            align-items: center;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            text-decoration: none;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-        }
-
-        /* Page Header */
-        .page-header {
-            background: linear-gradient(rgba(29, 53, 87, 0.8), rgba(29, 53, 87, 0.8)), url('https://source.unsplash.com/random/1600x400/?hospital,blood') no-repeat center center/cover;
-            padding: 4rem 0;
-            color: white;
-            text-align: center;
-        }
-
-        .page-header h1 {
-            color: white;
-            margin-bottom: 1rem;
-        }
-
-        /* Main Content */
-        .main-content {
-            padding: 4rem 0;
-        }
-
-        /* Emergency Banner */
-        .emergency-banner {
-            background-color: var(--primary-light);
-            border: 1px solid var(--primary);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .emergency-icon {
-            font-size: 2rem;
-            color: var(--primary);
-        }
-
-        .emergency-content h3 {
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .emergency-content p {
-            color: var(--primary-dark);
-            margin: 0;
-        }
-
-        .emergency-action {
-            margin-left: auto;
-        }
-
-        /* Search Form */
-        .search-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-        }
-
-        .search-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .form-control {
-            padding: 0.75rem;
-            border: 1px solid var(--gray);
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.1);
-        }
-
-        /* Blood Type Selector */
         .blood-type-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
-        }
-
-        .blood-type-btn {
-            padding: 0.75rem;
-            border: 1px solid var(--gray);
-            border-radius: 4px;
-            background: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .blood-type-btn:hover {
-            border-color: var(--primary);
-        }
-
-        .blood-type-btn.active {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* Results Section */
-        .results-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .donor-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: 1fr;
         }
 
-        .donor-card {
-            border: 1px solid var(--gray);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .donor-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .donor-header {
-            background-color: var(--light);
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--gray);
-        }
-
-        .donor-name {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .blood-type-badge {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-
-        .donor-info {
-            padding: 1rem;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-            color: var(--dark);
-        }
-
-        .donor-footer {
-            padding: 1rem;
-            border-top: 1px solid var(--gray);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .availability {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-        }
-
-        .availability.available {
-            color: var(--success);
-        }
-
-        .availability.unavailable {
-            color: var(--danger);
-        }
-
-        .availability-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        .available .availability-dot {
-            background-color: var(--success);
-        }
-
-        .unavailable .availability-dot {
-            background-color: var(--danger);
-        }
-
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .page-btn {
-            width: 2.5rem;
-            height: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--gray);
-            border-radius: 4px;
-            background: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .page-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .page-btn.active {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 4rem 0 2rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-about {
-            display: flex;
+        .emergency-banner {
             flex-direction: column;
-        }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: white;
-        }
-
-        .footer-links h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-links a {
-            color: var(--light);
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
-            color: var(--light);
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 70px);
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                padding: 2rem 0;
-                transition: left 0.3s ease;
-            }
-
-            .nav-links.active {
-                left: 0;
-            }
-
-            .nav-links li {
-                margin: 1rem 0;
-            }
-
-            .blood-type-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .donor-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .emergency-banner {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .emergency-action {
-                margin: 1rem 0 0;
-            }
+        .emergency-action {
+            margin: 1rem 0 0;
         }
-    </style>
-</head>
+    }
+</style>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">
-                    <img src="/api/placeholder/40/40" alt="LifeFlow Logo">
-                    <h1>LifeFlow</h1>
-                </div>
-                <div class="menu-toggle">
-                    <i>≡</i>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="donate.html">Donate</a></li>
-                    <li><a href="find-donors.html" class="active">Find Donors</a></li>
-                    <li><a href="request.html">Request</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="user-actions">
-                    <a href="login.html" class="btn btn-outline">Login</a>
-                </div>
-            </nav>
-        </div>
-    </header>
+<header>
+<div class="container">
+<nav class="navbar">
+<div class="logo">
+<img src="/api/placeholder/40/40" alt="LifeFlow Logo">
+<h1>LifeFlow</h1>
+</div>
+<div class="menu-toggle">
+<i>≡</i>
+</div>
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="donate.html">Donate</a></li>
+<li><a href="find-donors.html" class="active">Find Donors</a></li>
+<li><a href="request.html">Request</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+<div class="user-actions">
+<a href="login.html" class="btn btn-outline">Login</a>
+</div>
+</nav>
+</div>
+</header>
 
-    <!-- Page Header -->
-    <section class="page-header">
-        <div class="container">
-            <h1>Find Blood Donors</h1>
-            <p>Search for compatible blood donors in your area and connect with them directly</p>
-        </div>
-    </section>
+<section class="page-header">
+<div class="container">
+<h1>Find Blood Donors</h1>
+<p>Search for compatible blood donors in your area and connect with them directly</p>
+</div>
+</section>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-            <!-- Emergency Banner -->
-            <div class="emergency-banner">
-                <div class="emergency-icon">⚠️</div>
-                <div class="emergency-content">
-                    <h3>Emergency Blood Needed!</h3>
-                    <p>Critical requirement for B+ blood at PIMS Hospital for accident victim.</p>
-                </div>
-                <div class="emergency-action">
-                    <button class="btn btn-primary">Respond Now</button>
-                </div>
+<main class="main-content">
+<div class="container">
+<div class="emergency-banner">
+<div class="emergency-icon">⚠️</div>
+<div class="emergency-content">
+<h3>Emergency Blood Needed!</h3>
+<p>Critical requirement for B+ blood at PIMS Hospital for accident victim.</p>
+</div>
+<div class="emergency-action">
+<button class="btn btn-primary">Respond Now</button>
+</div>
+</div>
+
+<div class="search-container">
+<div class="search-header">
+<h2>Search Donors</h2>
+<p>Find blood donors based on blood type and location</p>
+</div>
+
+<form id="searchForm" action="/search_donors" method="POST">
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label">Blood Type</label>
+<div class="blood-type-grid">
+<button type="button" class="blood-type-btn">A+</button>
+<button type="button" class="blood-type-btn">A-</button>
+<button type="button" class="blood-type-btn">B+</button>
+<button type="button" class="blood-type-btn">B-</button>
+<button type="button" class="blood-type-btn">AB+</button>
+<button type="button" class="blood-type-btn">AB-</button>
+<button type="button" class="blood-type-btn">O+</button>
+<button type="button" class="blood-type-btn">O-</button>
+</div>
+</div>
+
+<div class="form-group">
+<label for="city" class="form-label">City</label>
+<input type="text" id="city" class="form-control" placeholder="Enter city name" value="Islamabad">
+</div>
+
+<div class="form-group">
+<label for="province" class="form-label">Province</label>
+<select id="province" class="form-control">
+<option value="">Select Province</option>
+<option value="Punjab">Punjab</option>
+<option value="Sindh">Sindh</option>
+<option value="KPK">KPK</option>
+<option value="Balochistan">Balochistan</option>
+<option value="GB">Gilgit-Baltistan</option>
+<option value="AJK">Azad Jammu and Kashmir</option>
+</select>
+</div>
+</div>
+
+<div class="text-center">
+<button type="button" class="btn btn-outline" style="margin-right: 1rem">Reset</button>
+<button type="submit" class="btn btn-primary">Search Donors</button>
+</div>
+</form>
+</div>
+
+<div class="results-container">
+    <div class="results-header">
+        <h2>Search Results</h2>
+        {% if donors %}
+        <span>{{ donors|length }} donors found</span>
+        {% elif error %}
+        <span class="error-message">{{ error }}</span>
+        {% else %}
+        <span>No donors found yet. Please use the search form.</span>
+        {% endif %}
+    </div>
+
+    <div class="donor-grid">
+        {% if donors %}
+        {% for donor in donors %}
+        <div class="donor-card">
+            <div class="donor-header">
+                <span class="donor-name">{{ donor.name }}</span>
+                <span class="blood-type-badge">{{ donor.blood_type }}</span>
             </div>
-
-            <!-- Search Form -->
-            <div class="search-container">
-                <div class="search-header">
-                    <h2>Search Donors</h2>
-                    <p>Find blood donors based on blood type and location</p>
+            <div class="donor-info">
+                <div class="info-item">
+                    <span>📍</span>
+                    <span>{{ donor.city }}, {{ donor.province }}</span>
                 </div>
-
-                <form id="searchForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">Blood Type</label>
-                            <div class="blood-type-grid">
-                                <button type="button" class="blood-type-btn">A+</button>
-                                <button type="button" class="blood-type-btn">A-</button>
-                                <button type="button" class="blood-type-btn">B+</button>
-                                <button type="button" class="blood-type-btn">B-</button>
-                                <button type="button" class="blood-type-btn">AB+</button>
-                                <button type="button" class="blood-type-btn">AB-</button>
-                                <button type="button" class="blood-type-btn">O+</button>
-                                <button type="button" class="blood-type-btn">O-</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="city" class="form-label">City</label>
-                            <input type="text" id="city" class="form-control" placeholder="Enter city name" value="Islamabad">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="province" class="form-label">Province</label>
-                            <input type="text" id="province" class="form-control" placeholder="Enter province">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="distance" class="form-label">Distance (km)</label>
-                            <select id="distance" class="form-control">
-                                <option value="5">Within 5 km</option>
-                                <option value="10" selected>Within 10 km</option>
-                                <option value="25">Within 25 km</option>
-                                <option value="50">Within 50 km</option>
-                                <option value="100">Within 100 km</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="text-center">
-                        <button type="button" class="btn btn-outline" style="margin-right: 1rem">Reset</button>
-                        <button type="submit" class="btn btn-primary">Search Donors</button>
-                    </div>
-                </form>
+                {% if 'last_donated' in donor %}
+                <div class="info-item">
+                    <span>📅</span>
+                    <span>Last donated: {{ donor.last_donated }}</span>
+                </div>
+                {% endif %}
+                {% if 'donation_count' in donor %}
+                <div class="info-item">
+                    <span>🩸</span>
+                    <span>{{ donor.donation_count }} donations</span>
+                </div>
+                {% endif %}
             </div>
-
-            <!-- Results Section -->
-            <div class="results-container">
-                <div class="results-header">
-                    <h2>Search Results</h2>
-                    <span>6 donors found</span>
-                </div>
-
-                <div class="donor-grid">
-                    <!-- Donor Card 1 -->
-                    <div class="donor-card">
-                        <div class="donor-header">
-                            <span class="donor-name">Ahsan Khan</span>
-                            <span class="blood-type-badge">A+</span>
-                        </div>
-                        <div class="donor-info">
-                            <div class="info-item">
-                                <span>📍</span>
-                                <span>F-8, Islamabad</span>
-                            </div>
-                            <div class="info-item">
-                                <span>📅</span>
-                                <span>Last donated: 3 months ago</span>
-                            </div>
-                            <div class="info-item">
-                                <span>🩸</span>
-                                <span>5 donations</span>
-                            </div>
-                        </div>
-                        <div class="donor-footer">
-                            <button class="btn btn-primary">Contact</button>
-                            <div class="availability available">
-                                <div class="availability-dot"></div>
-                                <span>Available</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Donor Card 2 -->
-                    <div class="donor-card">
-                        <div class="donor-header">
-                            <span class="donor-name">Fatima Ali</span>
-                            <span class="blood-type-badge">B+</span>
-                        </div>
-                        <div class="donor-info">
-                            <div class="info-item">
-                                <span>📍</span>
-                                <span>G-9, Islamabad</span>
-                            </div>
-                            <div class="info-item">
-                                <span>📅</span>
-                                <span>Last donated: 5 months ago</span>
-                            </div>
-                            <div class="info-item">
-                                <span>🩸</span>
-                                <span>3 donations</span>
-                            </div>
-                        </div>
-                        <div class="donor-footer">
-                            <button class="btn btn-primary">Contact</button>
-                            <div class="availability available">
-                                <div class="availability-dot"></div>
-                                <span>Available</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Donor Card 3 -->
-                    <div class="donor-card">
-                        <div class="donor-header">
-                            <span class="donor-name">Muhammad Hassan</span>
-                            <span class="blood-type-badge">O-</span>
-                        </div>
-                        <div class="donor-info">
-                            <div class="info-item">
-                                <span>📍</span>
-                                <span>E-11, Islamabad</span>
-                            </div>
-                            <div class="info-item">
-                                <span>📅</span>
-                                <span>Last donated: 2 weeks ago</span>
-                            </div>
-                            <div class="info-item">
-                                <span>🩸</span>
-                                <span>12 donations</span>
-                            </div>
-                        </div>
-                        <div class="donor-footer">
-                            <button class="btn btn-primary">Contact</button>
-                            <div class="availability unavailable">
-                                <div class="availability-dot"></div>
-                                <span>Unavailable for 2 months</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination">
-                    <button class="page-btn active">1</button>
-                    <button class="page-btn">2</button>
-                    <button class="page-btn">3</button>
-                    <button class="page-btn">→</button>
+            <div class="donor-footer">
+                <button class="btn btn-primary">Contact</button>
+                <div class="availability {% if donor.is_available %}available{% else %}unavailable{% endif %}">
+                    <div class="availability-dot"></div>
+                    <span>{% if donor.is_available %}Available{% else %}Unavailable{% endif %}</span>
                 </div>
             </div>
         </div>
-    </main>
+        {% endfor %}
+        {% else %}
+        <p>{% if not error %}No donors match your search criteria.{% endif %}</p>
+        {% endif %}
+    </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-about">
-                    <div class="footer-logo">LifeFlow</div>
-                    <p>Connecting blood donors with recipients to save lives across the country.</p>
-                    <div class="social-links">
-                        <a href="#"><span>f</span></a>
-                        <a href="#"><span>t</span></a>
-                        <a href="#"><span>in</span></a>
-                        <a href="#"><span>ig</span></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="donate.html">Donate</a></li>
-                        <li><a href="find-donors.html">Find Donors</a></li>
-                        <li><a href="request.html">Request</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h3>Contact</h3>
-                    <ul>
-                        <li>Email: info@lifeflow.org</li>
-                        <li>Phone: +123 456 7890</li>
-                        <li>Address: 123 Main St, City</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    {% if donors and donors|length > 0 %}
+    <div class="pagination">
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">→</button>
+    </div>
+    {% endif %}
+</div>
+</div>
+</main>
 
-    <script>
-        // Mobile Menu Toggle
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
+<footer>
+<div class="container">
+<div class="footer-content">
+<div class="footer-about">
+<div class="footer-logo">LifeFlow</div>
+<p>Connecting blood donors with recipients to save lives across the country.</p>
+<div class="social-links">
+<a href="#"><span>f</span></a>
+<a href="#"><span>t</span></a>
+<a href="#"><span>in</span></a>
+<a href="#"><span>ig</span></a>
+</div>
+</div>
+<div class="footer-links">
+<h3>Quick Links</h3>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="donate.html">Donate</a></li>
+<li><a href="find-donors.html">Find Donors</a></li>
+<li><a href="request.html">Request</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h3>Contact</h3>
+<ul>
+<li>Email: info@lifeflow.org</li>
+<li>Phone: +123 456 7890</li>
+<li>Address: 123 Main St, City</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
+</div>
+</div>
+</footer>
+
+<script>
+    // Mobile Menu Toggle (Keep this)
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Blood Type Selection (Keep this)
+    const bloodTypeBtns = document.querySelectorAll('.blood-type-btn');
+    bloodTypeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            bloodTypeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         });
+    });
 
-        // Blood Type Selection
-        const bloodTypeBtns = document.querySelectorAll('.blood-type-btn');
-        bloodTypeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                bloodTypeBtns.forEach(b => b.classList.remove('active'));
+    async function fetchDonors(bloodType = '', city = '', province = '') {
+        const formData = new FormData();
+        formData.append('blood_type', bloodType);
+        formData.append('city', city);
+        formData.append('province', province);
+
+        try {
+            const response = await fetch('/search_donors', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                document.querySelector('.results-container').innerHTML = `<div class="results-header"><h2>Search Results</h2><span class="error-message">${errorData.error || 'Failed to retrieve donors.'}</span></div><div class="donor-grid"></div>`;
+                return;
+            }
+
+            const data = await response.json();
+            const donors = data.donors;
+            const resultsContainer = document.querySelector('.results-container');
+            let resultsHTML = `<div class="results-header"><h2>Search Results</h2><span>${donors ? donors.length : 0} donors found</span></div><div class="donor-grid">`;
+
+            if (donors && donors.length > 0) {
+                donors.forEach(donor => {
+                    resultsHTML += `
+                        <div class="donor-card">
+                            <div class="donor-header">
+                                <span class="donor-name">${donor.first_name ? donor.first_name : ''} ${donor.last_name ? donor.last_name : ''}</span>
+                                <span class="blood-type-badge">${donor.blood_type}</span>
+                            </div>
+                            <div class="donor-info">
+                                <div class="info-item">
+                                    <span>📍</span>
+                                    <span>${donor.city}, ${donor.province}</span>
+                                </div>
+                                ${donor.last_donated ? `<div class="info-item"><span>📅</span><span>Last donated: ${donor.last_donated}</span></div>` : ''}
+                                ${donor.donation_count ? `<div class="info-item"><span>🩸</span><span>${donor.donation_count} donations</span></div>` : ''}
+                            </div>
+                            <div class="donor-footer">
+                                <button class="btn btn-primary">Contact</button>
+                                <div class="availability ${donor.is_available ? 'available' : 'unavailable'}">
+                                    <div class="availability-dot"></div>
+                                    <span>${donor.is_available ? 'Available' : 'Unavailable'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                resultsHTML += '<p>No donors match your search criteria.</p>';
+            }
+
+            resultsHTML += '</div>';
+            resultsContainer.innerHTML = resultsHTML;
+
+            // You'll need to handle pagination dynamically with JavaScript if needed
+            // based on the total number of results.
+
+        } catch (error) {
+            console.error("Error during initial fetch or search:", error);
+            document.querySelector('.results-container').innerHTML = `<div class="results-header"><h2>Search Results</h2><span class="error-message">An error occurred while fetching donors.</span></div><div class="donor-grid"></div>`;
+        }
+    }
+
+    // Initial state on page load: Display placeholder text
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('.results-container').innerHTML = `
+            <div class="results-header">
+                <h2>Search Results</h2>
+                <span>No donors found yet. Please use the search form.</span>
+            </div>
+            <div class="donor-grid"></div>
+        `;
+    });
+
+    // Search Form Submission (Modified to use fetchDonors function)
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent default form submission
+
+        const bloodType = document.querySelector('.blood-type-btn.active')?.textContent || '';
+        const city = document.getElementById('city').value;
+        const province = document.getElementById('province').value;
+
+        fetchDonors(bloodType, city, province);
+    });
+
+    // Reset Form (Modified to fetch all donors on reset)
+    document.querySelector('.btn-outline').addEventListener('click', () => {
+        bloodTypeBtns.forEach(btn => btn.classList.remove('active'));
+        document.getElementById('city').value = 'Islamabad';
+        document.getElementById('province').value = '';
+        fetchDonors(); // Fetch all donors again on reset
+    });
+
+    // Emergency Response (Keep this)
+    document.querySelector('.emergency-banner .btn').addEventListener('click', () => {
+        alert('Thank you for responding! A coordinator will contact you shortly.');
+    });
+
+    // Contact Buttons (Keep this - the alert will still work for now)
+    document.querySelectorAll('.donor-footer .btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const donorName = btn.closest('.donor-card').querySelector('.donor-name').textContent;
+            alert(`Contacting ${donorName}. You will be redirected to the messaging system.`);
+        });
+    });
+
+    // Pagination (You'll likely need to adapt this for client-side rendering)
+    document.querySelectorAll('.page-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (!btn.textContent.includes('→')) {
+                document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-            });
+            }
         });
-
-        // Form Submission
-        document.getElementById('searchForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Searching for donors...');
-        });
-
-        // Reset Form
-        document.querySelector('.btn-outline').addEventListener('click', () => {
-            bloodTypeBtns.forEach(btn => btn.classList.remove('active'));
-            document.getElementById('city').value = 'Islamabad';
-            document.getElementById('province').value = '';
-            document.getElementById('distance').value = '10';
-        });
-
-        // Emergency Response
-        document.querySelector('.emergency-banner .btn').addEventListener('click', () => {
-            alert('Thank you for responding! A coordinator will contact you shortly.');
-        });
-
-        // Contact Buttons
-        document.querySelectorAll('.donor-footer .btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const donorName = btn.closest('.donor-card').querySelector('.donor-name').textContent;
-                alert(`Contacting ${donorName}. You will be redirected to the messaging system.`);
-            });
-        });
-
-        // Pagination
-        document.querySelectorAll('.page-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (!btn.textContent.includes('→')) {
-                    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                }
-            });
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
