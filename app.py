@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, redirect, url_for, jsonify, render_template, send_from_directory
 from dotenv import load_dotenv
 from supabase_client import supabase
@@ -70,6 +69,46 @@ def register_donors():
         return render_template("register-donor.html",
                                provinces=["Punjab", "Sindh", "KPK", "Balochistan", "Islamabad"],
                                blood_types=["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
+
+# Blood request handling (GET: show form, POST: submit form)
+@app.route('/submit/request', methods=['GET', 'POST'])
+def blood_request():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+
+        gender = data.get("gender")
+    # Ensure gender matches the Supabase constraint
+        if gender:
+            gender = gender.capitalize()
+
+        # Insert blood request into Supabase
+        response = supabase.table("blood_requests").insert({
+            "patient_name": data.get("patientName"),
+            "patient_age": data.get("patientAge"),
+            "gender": data.get("gender"),
+            "hospital": data.get("hospital"),
+            "blood_type": data.get("bloodType"),
+            "units_needed": int(data.get("unitsNeeded")),
+            "required_by": data.get("requiredBy"),
+            "urgency": data.get("urgency"),
+            "contact_name": data.get("contactName"),
+            "relationship": data.get("relationship"),
+            "phone": data.get("phone"),
+            "email": data.get("email"),
+            "address": data.get("address"),
+            "city": data.get("city"),
+            "state": data.get("state"),
+            "zipcode": data.get("zipcode"),
+            "additional_info": data.get("additionalInfo")
+        }).execute()
+
+        if response.data:
+           return redirect(url_for('serve_html', filename='thank-you.html'))
+        else:
+            return "Error submitting blood request", 500
+    else:
+        # Render the blood request form
+        return render_template("request.html")
 
 # Run the application
 if __name__ == '__main__':
