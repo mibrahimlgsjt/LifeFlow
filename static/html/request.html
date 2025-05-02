@@ -481,7 +481,6 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="container">
             <nav class="navbar">
@@ -507,7 +506,6 @@
         </div>
     </header>
 
-    <!-- Page Header -->
     <section class="page-header">
         <div class="container">
             <h1>Request Blood</h1>
@@ -515,7 +513,6 @@
         </div>
     </section>
 
-    <!-- How It Works -->
     <section class="form-section">
         <div class="container">
             <div class="info-cards">
@@ -541,20 +538,19 @@
                     <h2>Blood Request Form</h2>
                     <p>Please provide accurate information to ensure we can find the best match for your needs.</p>
                 </div>
-                
-                <form id="requestForm">
+                <form id="requestForm" method="POST" action="/submit/request">
                     <h3>Patient Information</h3>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="patientName" class="form-label required-field">Patient Name</label>
-                            <input type="text" class="form-control" id="patientName" required>
+                            <input type="text" class="form-control" id="patientName" name="patientName" required>
                         </div>
                         <div class="form-group">
                             <label for="patientAge" class="form-label required-field">Age</label>
-                            <input type="number" class="form-control" id="patientAge" min="0" max="120" required>
+                            <input type="number" class="form-control" id="patientAge" name="patientAge" min="0" max="120" required>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label required-field">Gender</label>
                         <div class="form-check">
@@ -570,62 +566,38 @@
                             <label for="other">Other</label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="hospital" class="form-label required-field">Hospital/Clinic Name</label>
-                        <input type="text" class="form-control" id="hospital" required>
+                        <input type="text" class="form-control" id="hospital" name="hospital" required>
                     </div>
-                    
+
                     <h3 class="mt-4">Blood Requirement</h3>
                     <div class="form-group">
                         <label class="form-label required-field">Blood Type Needed</label>
                         <div class="blood-type-selector">
-                            <div class="blood-type-option">
-                                <input type="radio" id="a-positive" name="bloodType" value="A+" required>
-                                <label for="a-positive">A+</label>
-                            </div>
-                            <div class="blood-type-option">
-                                <input type="radio" id="a-negative" name="bloodType" value="A-">
-                                <label for="a-negative">A-</label>
-                            </div>
-                            <div class="blood-type-option">
-                                <input type="radio" id="b-positive" name="bloodType" value="B+">
-                                <label for="b-positive">B+</label>
-                            </div>
-                            <div class="blood-type-option">
-                                <input type="radio" id="b-negative" name="bloodType" value="B-">
-                                <label for="b-negative">B-</label>
-                            </div>
-                            <div class="blood-type-option">
-                                <input type="radio" id="ab-positive" name="bloodType" value="AB+">
-                                <label for="ab-positive">AB+</label>
-                            </div>
-                            <div class="blood-type-option">
-                                <input type="radio" id="ab-negative" name="bloodType" value="AB-">
-                                <label for="ab-negative">AB-</label>
-                            </div>
-                            <div class="blood-type-option">
-                                <input type="radio" id="o-positive" name="bloodType" value="O+">
-                                <label for="o-positive">O+</label>
-                            </div>
-                            <div class="blood-type-option">
-                                <input type="radio" id="o-negative" name="bloodType" value="O-">
-                                <label for="o-negative">O-</label>
-                            </div>
+                            <div class="blood-type-option"><input type="radio" id="a-positive" name="bloodType" value="A+" required><label for="a-positive">A+</label></div>
+                            <div class="blood-type-option"><input type="radio" id="a-negative" name="bloodType" value="A-"><label for="a-negative">A-</label></div>
+                            <div class="blood-type-option"><input type="radio" id="b-positive" name="bloodType" value="B+"><label for="b-positive">B+</label></div>
+                            <div class="blood-type-option"><input type="radio" id="b-negative" name="bloodType" value="B-"><label for="b-negative">B-</label></div>
+                            <div class="blood-type-option"><input type="radio" id="ab-positive" name="bloodType" value="AB+"><label for="ab-positive">AB+</label></div>
+                            <div class="blood-type-option"><input type="radio" id="ab-negative" name="bloodType" value="AB-"><label for="ab-negative">AB-</label></div>
+                            <div class="blood-type-option"><input type="radio" id="o-positive" name="bloodType" value="O+"><label for="o-positive">O+</label></div>
+                            <div class="blood-type-option"><input type="radio" id="o-negative" name="bloodType" value="O-"><label for="o-negative">O-</label></div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="unitsNeeded" class="form-label required-field">Units Required</label>
-                        <input type="number" class="form-control" id="unitsNeeded" min="1" max="10" required>
+                        <input type="number" class="form-control" id="unitsNeeded" name="unitsNeeded" min="1" max="10" required>
                         <small class="form-text">1 unit = 450ml of blood</small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="requiredBy" class="form-label required-field">Required By</label>
-                        <input type="date" class="form-control" id="requiredBy" required>
+                        <input type="date" class="form-control" id="requiredBy" name="requiredBy" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label required-field">Urgency Level</label>
                         <div class="form-check">
@@ -641,16 +613,16 @@
                             <label for="standard">Standard (Within a week)</label>
                         </div>
                     </div>
-                    
+
                     <h3 class="mt-4">Contact Information</h3>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="contactName" class="form-label required-field">Contact Person Name</label>
-                            <input type="text" class="form-control" id="contactName" required>
+                            <input type="text" class="form-control" id="contactName" name="contactName" required>
                         </div>
                         <div class="form-group">
                             <label for="relationship" class="form-label required-field">Relationship to Patient</label>
-                            <select class="form-control" id="relationship" required>
+                            <select class="form-control" id="relationship" name="relationship" required>
                                 <option value="">Select relationship</option>
                                 <option value="self">Self</option>
                                 <option value="family">Family Member</option>
@@ -662,59 +634,59 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="phone" class="form-label required-field">Phone Number</label>
-                            <input type="tel" class="form-control" id="phone" required>
+                            <input type="tel" class="form-control" id="phone" name="phone" required>
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label required-field">Email Address</label>
-                            <input type="email" class="form-control" id="email" required>
+                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="address" class="form-label required-field">Address</label>
-                        <textarea class="form-control" id="address" rows="3" required></textarea>
+                        <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="city" class="form-label required-field">City</label>
-                            <input type="text" class="form-control" id="city" required>
+                            <input type="text" class="form-control" id="city" name="city" required>
                         </div>
                         <div class="form-group">
                             <label for="state" class="form-label required-field">State/Province</label>
-                            <input type="text" class="form-control" id="state" required>
+                            <input type="text" class="form-control" id="state" name="state" required>
                         </div>
                         <div class="form-group">
                             <label for="zipcode" class="form-label required-field">Postal/Zip Code</label>
-                            <input type="text" class="form-control" id="zipcode" required>
+                            <input type="text" class="form-control" id="zipcode" name="zipcode" required>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="additionalInfo" class="form-label">Additional Information</label>
-                        <textarea class="form-control" id="additionalInfo" rows="3" placeholder="Any additional details that might help donors understand the situation"></textarea>
+                        <textarea class="form-control" id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any additional details that might help donors understand the situation"></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                            <input type="checkbox" class="form-check-input" id="termsCheck" name="termsCheck" required>
                             <label for="termsCheck">I agree to the <a href="#">terms and conditions</a> and confirm that all information provided is accurate.</label>
                         </div>
                     </div>
-                    
+
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-primary">Submit Request</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -739,7 +711,7 @@
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-links">
                     <h3>Contact</h3>
                     <ul>
@@ -754,22 +726,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        // Simple toggle for mobile menu
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-
-        // Form submission handler
-        document.getElementById('requestForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Here you would typically send the form data to your server
-            alert('Your blood request has been submitted successfully! You will be notified when we find matching donors.');
-            
-            // For demo purposes, redirect to a confirmation page
-            // window.location.href = 'request-confirmation.html';
-        });
-    </script>
 </body>
 </html>
