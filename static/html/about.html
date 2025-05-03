@@ -291,6 +291,10 @@
             margin-bottom: 0.5rem;
         }
 
+        .counter::after {
+            content: "+";
+        }
+
         .team-section {
             margin-bottom: 4rem;
         }
@@ -502,20 +506,24 @@
                     <h2>Our Impact in Numbers</h2>
                     <div class="stats-container">
                         <div class="stat-item">
-                            <h3>25,000+</h3>
+                            <h3 class="counter" data-count="25000">0</h3>
                             <p>Lives Saved</p>
                         </div>
                         <div class="stat-item">
-                            <h3>50,000+</h3>
+                            <h3 class="counter" data-count="50000">0</h3>
                             <p>Registered Donors</p>
                         </div>
                         <div class="stat-item">
-                            <h3>200+</h3>
+                            <h3 class="counter" data-count="200">0</h3>
                             <p>Partner Hospitals</p>
                         </div>
                         <div class="stat-item">
-                            <h3>100+</h3>
+                            <h3 class="counter" data-count="100">0</h3>
                             <p>Cities Covered</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 class="counter" data-count="25">0</h3>
+                            <p>Years of Experience</p>
                         </div>
                     </div>
                 </div>
@@ -561,10 +569,33 @@
         </div>
     </footer>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/static/js/counter.js"></script>
     <script>
         // Simple toggle for mobile menu
         document.querySelector('.menu-toggle').addEventListener('click', function() {
             document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        $(document).ready(function() {
+            $('.counter').each(function() {
+                var $this = $(this),
+                    countTo = $this.attr('data-count');
+
+                $({ countNum: $this.text()}).animate({
+                    countNum: countTo
+                },
+                {
+                    duration: 2000,
+                    easing:'linear',
+                    step: function() {
+                        $this.text(Math.floor(this.countNum));
+                    },
+                    complete: function() {
+                        $this.text(this.countNum);
+                    }
+                });
+            });
         });
     </script>
 </body>
