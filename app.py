@@ -1,8 +1,9 @@
-from flask import Flask, request, redirect, url_for, jsonify, render_template, send_from_directory
+from flask import Flask, request, redirect, url_for, jsonify, render_template, send_from_directory, flash
 from dotenv import load_dotenv
-from supabase_client import supabase
+from supabase import create_client, Client
 from flask_cors import CORS
 import os
+import json  # Import the json module
 
 # Load environment variables from .env file
 load_dotenv()
@@ -10,6 +11,9 @@ load_dotenv()
 # Access Supabase credentials
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
+
+# Create Supabase client directly
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Create Flask application
 app = Flask(__name__, static_folder='static', static_url_path='/static')
@@ -103,13 +107,13 @@ def blood_request():
         }).execute()
 
         if response.data:
-           return redirect(url_for('serve_html', filename='thank-you.html'))
+            return redirect(url_for('serve_html', filename='thank-you.html'))
         else:
             return "Error submitting blood request", 500
     else:
         # Render the blood request form
         return render_template("request.html")
-    
+
 @app.route('/contactform', methods=['POST'])
 def handle_contact():
     if request.method == 'POST':
@@ -144,7 +148,7 @@ def handle_contact():
     # If it's a GET request
     return "Method not allowed", 405
 
-#find-donors.html route
+# find-donors.html route
 @app.route('/find-donors')
 def find_donors_page():
     return render_template('find-donors.html') # You might still be serving the base HTML this way
@@ -170,6 +174,69 @@ def search_donors():
     except Exception as e:
         print(f"Error fetching donors: {e}")
         return jsonify(error="Failed to retrieve donors."), 500 # Return an error with a status code
+
+# Blood Drives Routes
+@app.route('/add-blood-drive', methods=['GET', 'POST'])
+def add_blood_drive():
+    if request.method == 'POST':
+        form = request.form
+
+        # Extract blood drive details from form
+        blood_drive_data = {
+            'organizer_name': form.get('organizerName'),
+            'organizer_email': form.get('organizerEmail'),
+            'drive_name': form.get('driveName'),
+            'location': form.get('location'),
+            'date': form.get('date'),
+            'time': form.get('time'),
+            'description': form.get('description')
+        }
+
+        # Insert into Supabase blooddrives table
+        try:
+            result = supabase.table("blooddrives").insert(blood_drive_data).execute()
+            print("Supabase result:", result)  # Print the entire result object for inspection
+
+            # Check for successful insertion based on the structure of the result.
+            #  This will need to be adapted based on the *actual* structure of the result.
+            if result.data:
+                flash('Blood drive added successfully!', 'success')
+                return redirect(url_for('index'))  # Redirect
+            else:
+                flash('Error: Could not add blood drive. Please try again.', 'danger')
+                return redirect(request.url)
+
+        except Exception as e:
+            # Catch any exception that occurs during the Supabase operation
+            error_message = f"Error adding blood drive: {e}"
+            print(error_message)
+            flash(f'Error: Could not add blood drive. Please try again. Details: {error_message}', 'danger')
+            return redirect(request.url)
+
+    return render_template("add-blood-drives.html")
+
+@app.route('/blood-drives')
+def view_blood_drives():
+    # Fetch all blood drives from Supabase
+    response = supabase.table("blooddrives").select("*").execute()
+    blood_drives = response.data
+    return render_template("blood-drives.html", blood_drives=blood_drives)
+
+@app.route('/search_blood_drives', methods=['POST'])
+def search_blood_drives():
+    city = request.form.get('city')
+
+    query = supabase.table("blooddrives").select("*")
+    if city:
+        query = query.ilike("location", f"%{city}%")  #  Use 'location' instead of 'city'
+
+    try:
+        response = query.execute()
+        drives_data = response.data
+        return jsonify(drives=drives_data)  # Return as JSON, key as "drives"
+    except Exception as e:
+        print(f"Error fetching blood drives: {e}")
+        return jsonify(error="Failed to retrieve blood drives."), 500
 
 # Run the application
 if __name__ == '__main__':
