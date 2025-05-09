@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=...">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LifeFlow - Blood Donation Management System</title>
     <style>
         /* Reset and Base Styles */
@@ -310,16 +310,6 @@
         .stat-item p {
             font-size: 1.1rem;
             color: var(--light);
-        }
-
-        .counter {
-            font-size: 3em;
-            font-weight: bold;
-            color: #007bff; /* Example color */
-        }
-
-        .counter::after {
-            content: "+";
         }
 
         /* Call to Action */
@@ -731,8 +721,6 @@
             }
         }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/static/js/counter.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -740,7 +728,7 @@
         <div class="container">
             <nav class="navbar">
                 <div class="logo">
-                    <img src="/api/placeholder/40/40" alt="LifeFlow Logo">
+                    <img src="logo.jpg" alt="LifeFlow Logo">
                     <h1>LifeFlow</h1>
                 </div>
                 <div class="menu-toggle">
@@ -752,11 +740,10 @@
                     <li><a href="donate.html">Donate</a></li>
                     <li><a href="find-donors.html">Find Donors</a></li>
                     <li><a href="request.html">Request</a></li>
+                    <li><a href="add-blood-drives.html" class="active">Add Blood Drive</a></li>
+                    <li><a href="find-blood-drives.html" class="active">Find Blood Drive</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
-                <div class="user-actions">
-                    <a href="login.html" class="btn btn-outline">Login</a>
-                </div>
             </nav>
         </div>
     </header>
@@ -816,19 +803,19 @@
         <div class="container">
             <div class="stats-grid">
                 <div class="stat-item">
-                    <h3 class="counter" data-count="5000">0</h3>
+                    <h3>5,000+</h3>
                     <p>Registered Donors</p>
                 </div>
                 <div class="stat-item">
-                    <h3 class="counter" data-count="3200">0</h3>
+                    <h3>3,200+</h3>
                     <p>Successful Donations</p>
                 </div>
                 <div class="stat-item">
-                    <h3 class="counter" data-count="1500">0</h3>
+                    <h3>1,500+</h3>
                     <p>Lives Saved</p>
                 </div>
                 <div class="stat-item">
-                    <h3 class="counter" data-count="50">0</h3>
+                    <h3>50+</h3>
                     <p>Districts Covered</p>
                 </div>
             </div>
@@ -891,28 +878,6 @@
         // Simple toggle for mobile menu
         document.querySelector('.menu-toggle').addEventListener('click', function() {
             document.querySelector('.nav-links').classList.toggle('active');
-        });
-
-        $(document).ready(function() {
-            $('.counter').each(function() {
-                debugger; // Add this line
-                var $this = $(this),
-                    countTo = $this.attr('data-count');
-
-                $({ countNum: $this.text()}).animate({
-                    countNum: countTo
-                },
-                {
-                    duration: 2000,
-                    easing:'linear',
-                    step: function() {
-                        $this.text(Math.floor(this.countNum));
-                    },
-                    complete: function() {
-                        $this.text(this.countNum);
-                    }
-                });
-            });
         });
     </script>
 </body>
