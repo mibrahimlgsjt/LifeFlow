@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - LifeFlow Blood Donation Management System</title>
+    <title>Contact Us - LifeFlow Blood Donation Management System</title>
     <style>
         /* Reset and Base Styles */
         * {
@@ -200,138 +200,128 @@
             text-decoration: none;
         }
 
-        .btn-success {
-            background-color: var(--success);
-            color: white;
+        /* Forms */
+        .form-section {
+            padding: 5rem 0;
+            margin: 20px;
         }
 
-        .btn-success:hover {
-            background-color: #218778;
-            text-decoration: none;
+        .form-container {
+            max-width: 800px;
+            margin: 20px auto; /* Add top, bottom, left, and right margin (auto centers it) */
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+}
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(69, 123, 157, 0.25);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
         }
 
         /* Page Header */
         .page-header {
             background: linear-gradient(rgba(29, 53, 87, 0.8), rgba(29, 53, 87, 0.8)), url('https://source.unsplash.com/random/1600x400/?hospital,medical') no-repeat center center/cover;
+            padding: 5rem 0;
             color: white;
-            padding: 3rem 0;
             text-align: center;
+            margin-bottom: 3rem;
         }
 
         .page-header h1 {
             color: white;
-            margin-bottom: 1rem;
-        }
-
-        /* About Section */
-        .about-section {
-            padding: 4rem 0;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            margin-bottom: 4rem;
-        }
-
-        .about-image {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .about-text h2 {
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
-
-        .mission-vision {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .mission-card, .vision-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .mission-card h3, .vision-card h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .stats {
-            background-color: var(--primary);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-
-        .stat-item h3 {
             font-size: 3rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
 
-        .counter::after {
-            content: "+";
+        /* Contact Info */
+        .contact-info {
+            margin-bottom: 3rem;
         }
 
-        .team-section {
-            margin-bottom: 4rem;
-        }
-
-        .team-grid {
+        .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
         }
 
-        .team-member {
+        .contact-card {
             background-color: white;
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .team-member img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .team-member-info {
             padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
         }
 
-        .team-member-info h4 {
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
             color: var(--primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
 
-        .team-member-info p {
+        .contact-text {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        /* Map Section */
+        .map-container {
+            height: 400px;
+            margin-top: 3rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             color: var(--gray);
-            font-size: 0.9rem;
         }
 
         /* Footer */
@@ -406,16 +396,6 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 992px) {
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .about-image {
-                order: -1;
-            }
-        }
-
         @media (max-width: 768px) {
             .menu-toggle {
                 display: block;
@@ -441,11 +421,15 @@
             .nav-links li {
                 margin: 1rem 0;
             }
+
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
         }
 
         @media (max-width: 576px) {
-            .stats-container {
-                grid-template-columns: 1fr;
+            .page-header h1 {
+                font-size: 2rem;
             }
         }
     </style>
@@ -456,7 +440,7 @@
         <div class="container">
             <nav class="navbar">
                 <div class="logo">
-                    <img src="/api/placeholder/40/40" alt="LifeFlow Logo">
+                    <img src=logo.jpg>
                     <h1>LifeFlow</h1>
                 </div>
                 <div class="menu-toggle">
@@ -464,16 +448,15 @@
                 </div>
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="about.html">About</a></li>
                     <li><a href="donate.html">Donate</a></li>
                     <li><a href="find-donors.html">Find Donors</a></li>
                     <li><a href="request.html">Request</a></li>
-                    <li><a href="connect.html">Connect</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="add-blood-drives.html" class="active">Add Blood Drive</a></li>
+                    <li><a href="find-blood-drives.html" class="active">Find Blood Drive</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                    
                 </ul>
-                <div class="user-actions">
-                    <a href="login.html" class="btn btn-outline">Login</a>
-                </div>
             </nav>
         </div>
     </header>
@@ -481,55 +464,55 @@
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1>About LifeFlow</h1>
-            <p>Connecting donors with recipients to save lives through blood donation</p>
+            <h1>Contact Us</h1>
+            <p>Have questions or need assistance? We're here to help.</p>
         </div>
     </section>
-
-    <!-- About Section -->
-    <section class="about-section">
+    <!-- Contact Form -->
+<section class="form-section">
         <div class="container">
-           
-            <div class="mission-vision">
-                <div class="mission-card">
-                    <h3>Our Mission</h3>
-                    <p>To create a seamless connection between blood donors and recipients through innovative technology, ensuring timely access to safe blood for all patients in need while promoting a culture of regular, voluntary blood donation.</p>
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Send Us a Message</h2>
+                    <p>Fill out the form below and we'll get back to you as soon as possible.</p>
                 </div>
-                <div class="vision-card">
-                    <h3>Our Vision</h3>
-                    <p>A world where no patient dies due to lack of blood, where every eligible individual is an active blood donor, and where blood donation is recognized as a fundamental act of human solidarity.</p>
-                </div>
-            </div>
-
-            <div class="stats">
-                <div class="container">
-                    <h2>Our Impact in Numbers</h2>
-                    <div class="stats-container">
-                        <div class="stat-item">
-                            <h3 class="counter" data-count="25000">0</h3>
-                            <p>Lives Saved</p>
+                <form id="contactForm" action="/contactform" method="POST">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
                         </div>
-                        <div class="stat-item">
-                            <h3 class="counter" data-count="50000">0</h3>
-                            <p>Registered Donors</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3 class="counter" data-count="200">0</h3>
-                            <p>Partner Hospitals</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3 class="counter" data-count="100">0</h3>
-                            <p>Cities Covered</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3 class="counter" data-count="25">0</h3>
-                            <p>Years of Experience</p>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" id="subject" name="subject" class="form-control" placeholder="Enter subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" name="message" class="form-control" placeholder="Write your message here..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section class="map-section">
+        <div class="container">
+            <div class="map-container">
+                <div class="map-placeholder">
+                    Map will go here (Integration needed)
                 </div>
             </div>
         </div>
     </section>
+    <!-- Map Section -->
+
 
     <!-- Footer -->
     <footer>
@@ -546,12 +529,14 @@
                     </div>
                 </div>
                 <div class="footer-links">
-                    <h3>Resources</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="#">Blood Donation FAQs</a></li>
-                        <li><a href="#">Eligibility Criteria</a></li>
-                        <li><a href="#">Donation Process</a></li>
-                        <li><a href="#">Blood Types</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request</a></li>
+                        <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
@@ -569,33 +554,10 @@
         </div>
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/static/js/counter.js"></script>
     <script>
         // Simple toggle for mobile menu
         document.querySelector('.menu-toggle').addEventListener('click', function() {
             document.querySelector('.nav-links').classList.toggle('active');
-        });
-
-        $(document).ready(function() {
-            $('.counter').each(function() {
-                var $this = $(this),
-                    countTo = $this.attr('data-count');
-
-                $({ countNum: $this.text()}).animate({
-                    countNum: countTo
-                },
-                {
-                    duration: 2000,
-                    easing:'linear',
-                    step: function() {
-                        $this.text(Math.floor(this.countNum));
-                    },
-                    complete: function() {
-                        $this.text(this.countNum);
-                    }
-                });
-            });
         });
     </script>
 </body>
