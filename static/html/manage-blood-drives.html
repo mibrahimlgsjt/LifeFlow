@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Blood Drives - LifeFlow</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #f8d7da;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --gray: #adb5bd;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a6a8a;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d65f41;
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218a7e;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            margin-bottom: 0;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card-title {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: rgba(241, 250, 238, 0.5);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            position: relative;
+            /* Add or modify these properties: */
+            overflow-y: auto; /* Enable scrolling within the modal if content overflows */
+            max-height: 80vh;  /* Optional: Set a maximum height for the modal */
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            margin-bottom: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(69, 123, 157, 0.25);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card-title {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .stat-card-description {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pagination-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 0.5rem;
+            border-radius: 4px;
+            background-color: white;
+            color: var(--dark);
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--gray);
+        }
+
+        .pagination-item:hover {
+            background-color: var(--light-gray);
+        }
+
+        .pagination-item.active {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .pagination-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status indicators */
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-upcoming {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        .status-completed {
+            background-color: var(--gray);
+            color: white;
+        }
+
+        .status-cancelled {
+            background-color: var(--danger);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.jpg">
+                    <h1>LifeFlow</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                    <li><a href="find-donors.html">Find Donors</a></li>
+                    <li><a href="request.html">Request</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-actions">
+                    <a href="logout.html" class="btn btn-outline">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Manage Blood Drives</h2>
+                <div class="dashboard-actions">
+                    <button class="btn btn-primary" id="addDriveBtn">Add New Blood Drive</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Drives</div>
+                    <div class="stat-card-value">12</div>
+                    <div class="stat-card-description">All blood drives</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Active Drives</div>
+                    <div class="stat-card-value">3</div>
+                    <div class="stat-card-description">Currently ongoing</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Upcoming Drives</div>
+                    <div class="stat-card-value">5</div>
+                    <div class="stat-card-description">Scheduled for future</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Units Collected</div>
+                    <div class="stat-card-value">487</div>
+                    <div class="stat-card-description">In the last 3 months</div>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label class="filter-label">Search</label>
+                    <input type="text" class="filter-input" id="searchInput" placeholder="Search by title or location...">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Date Range</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="date" class="filter-input" id="dateFrom">
+                        <input type="date" class="filter-input" id="dateTo">
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-secondary filter-btn" id="applyFilters">Apply Filters</button>
+                    <button class="btn btn-outline filter-btn" id="resetFilters">Reset</button>
+                </div>
+            </div>
+
+            <!-- Blood Drives Table -->
+            <div class="table-responsive">
+                <table id="bloodDrivesTable">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Organizer</th>
+                            <th>Contact Person</th>
+                            <th>Contact Phone</th>
+                            <th>Units Collected</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Annual Community Blood Drive</td>
+                            <td>2025-03-15</td>
+                            <td>10:00 AM - 4:00 PM</td>
+                            <td>City Hall, 123 Main St</td>
+                            <td><span class="status status-upcoming">Upcoming</span></td>
+                            <td>Red Cross</td>
+                            <td>Jane Smith</td>
+                            <td>555-1234</td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="1">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="1">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Summer Blood Donation</td>
+                            <td>2025-06-20</td>
+                            <td>09:00 AM - 3:00 PM</td>
+                            <td>Community Center, 456 Oak St</td>
+                            <td><span class="status status-upcoming">Upcoming</span></td>
+                            <td>Local Hospital</td>
+                            <td>John Doe</td>
+                            <td>555-5678</td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="2">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="2">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>University Campus Drive</td>
+                            <td>2025-05-10</td>
+                            <td>11:00 AM - 5:00 PM</td>
+                            <td>Student Union Building, State University</td>
+                            <td><span class="status status-upcoming">Upcoming</span></td>
+                            <td>University Health Services</td>
+                            <td>Professor Williams</td>
+                            <td>555-8901</td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="3">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="3">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Spring Office Blood Drive</td>
+                            <td>2025-05-05</td>
+                            <td>10:00 AM - 2:00 PM</td>
+                            <td>Downtown Office Tower, 789 Business Ave</td>
+                            <td><span class="status status-active">Active</span></td>
+                            <td>Corporate Wellness Initiative</td>
+                            <td>Mark Johnson</td>
+                            <td>555-2345</td>
+                            <td>27</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="4">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="4">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Faith Community Blood Drive</td>
+                            <td>2025-07-15</td>
+                            <td>9:00 AM - 1:00 PM</td>
+                            <td>First Community Church, 321 Faith Rd</td>
+                            <td><span class="status status-upcoming">Upcoming</span></td>
+                            <td>Faith Community Outreach</td>
+                            <td>Pastor Roberts</td>
+                            <td>555-6789</td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="5">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="5">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Downtown Public Library Drive</td>
+                            <td>2025-05-02</td>
+                            <td>12:00 PM - 6:00 PM</td>
+                            <td>Central Library, 555 Reading St</td>
+                            <td><span class="status status-active">Active</span></td>
+                            <td>City Health Department</td>
+                            <td>Susan Clark</td>
+                            <td>555-3456</td>
+                            <td>35</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="6">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="6">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Emergency Response Drive</td>
+                            <td>2025-04-15</td>
+                            <td>8:00 AM - 8:00 PM</td>
+                            <td>Multiple Locations</td>
+                            <td><span class="status status-completed">Completed</span></td>
+                            <td>National Response Team</td>
+                            <td>Captain Rodriguez</td>
+                            <td>555-9012</td>
+                            <td>142</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="7">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="7">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Shopping Mall Community Drive</td>
+                            <td>2025-04-01</td>
+                            <td>10:00 AM - 7:00 PM</td>
+                            <td>Westside Mall, 100 Shopping Center Blvd</td>
+                            <td><span class="status status-completed">Completed</span></td>
+                            <td>Regional Blood Center</td>
+                            <td>Emily Thompson</td>
+                            <td>555-7890</td>
+                            <td>98</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="8">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="8">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Senior Community Drive</td>
+                            <td>2025-08-20</td>
+                            <td>9:00 AM - 2:00 PM</td>
+                            <td>Golden Years Retirement Community, 200 Sunset Blvd</td>
+                            <td><span class="status status-upcoming">Upcoming</span></td>
+                            <td>Senior Care Association</td>
+                            <td>Dr. Martin</td>
+                            <td>555-4567</td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="9">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="9">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>High School Sports Teams Drive</td>
+                            <td>2025-05-01</td>
+                            <td>3:00 PM - 7:00 PM</td>
+                            <td>Lincoln High School Gymnasium, 300 Education Dr</td>
+                            <td><span class="status status-active">Active</span></td>
+                            <td>School District Health Initiative</td>
+                            <td>Coach Peterson</td>
+                            <td>555-0123</td>
+                            <td>52</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="10">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="10">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <a class="pagination-item disabled">&laquo;</a>
+                <a class="pagination-item active">1</a>
+                <a class="pagination-item">2</a>
+                <a class="pagination-item">3</a>
+                <a class="pagination-item">&raquo;</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Blood Drive Modal -->
+    <div class="modal-overlay" id="bloodDriveModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Add New Blood Drive</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bloodDriveForm">
+                    <input type="hidden" id="driveId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="driveTitle">Title</label>
+                            <input type="text" class="form-control" id="driveTitle" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="driveDate">Date</label>
+                            <input type="date" class="form-control" id="driveDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="driveTime">Time</label>
+                            <input type="text" class="form-control" id="driveTime" placeholder="e.g., 10:00 AM - 4:00 PM" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="driveLocation">Location</label>
+                            <input type="text" class="form-control" id="driveLocation" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="driveStatus">Status</label>
+                            <select class="form-control" id="driveStatus" required>
+                                <option value="upcoming">Upcoming</option>
+                                <option value="active">Active</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="driveUnits">Units Collected</label>
+                            <input type="number" class="form-control" id="driveUnits" min="0" value="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="driveOrganizer">Organizer</label>
+                            <input type="text" class="form-control" id="driveOrganizer" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="driveContactPerson">Contact Person</label>
+                            <input type="text" class="form-control" id="driveContactPerson" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="driveContactPhone">Contact Phone</label>
+                            <input type="tel" class="form-control" id="driveContactPhone" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="driveNotes">Additional Notes</label>
+                        <textarea class="form-control" id="driveNotes" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelDrive">Cancel</button>
+                <button class="btn btn-primary" id="saveDrive">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close" id="closeDeleteModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this blood drive? This action cannot be undone.</p>
+                <input type="hidden" id="deleteId">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelDelete">Cancel</button>
+                <button class="btn btn-danger" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">LifeFlow</div>
+                    <p>Connecting blood donors with recipients to save lives across the country.</p>
+                    <div class="social-links">
+                        <a href="#"><span>f</span></a>
+                        <a href="#"><span>t</span></a>
+                        <a href="#"><span>in</span></a>
+                        <a href="#"><span>ig</span></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>Email: info@lifeflow.org</li>
+                        <li>Phone: +123 456 7890</li>
+                        <li>Address: 123 Main St, City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const addDriveBtn = document.getElementById('addDriveBtn');
+        const bloodDriveModal = document.getElementById('bloodDriveModal');
+        const deleteModal = document.getElementById('deleteModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeDeleteModal = document.getElementById('closeDeleteModal');
+        const bloodDriveForm = document.getElementById('bloodDriveForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const saveDrive = document.getElementById('saveDrive');
+        const cancelDrive = document.getElementById('cancelDrive');
+        const cancelDelete = document.getElementById('cancelDelete');
+        const confirmDelete = document.getElementById('confirmDelete');
+        const searchInput = document.getElementById('searchInput');
+        const statusFilter = document.getElementById('statusFilter');
+        const dateFrom = document.getElementById('dateFrom');
+        const dateTo = document.getElementById('dateTo');
+        const applyFilters = document.getElementById('applyFilters');
+        const resetFilters = document.getElementById('resetFilters');
+        
+        // Sample data storage for demo purposes
+        let bloodDrives = [
+            {
+                id: 1,
+                title: "Annual Community Blood Drive",
+                date: "2025-03-15",
+                time: "10:00 AM - 4:00 PM",
+                location: "City Hall, 123 Main St",
+                status: "upcoming",
+                organizer: "Red Cross",
+                contactPerson: "Jane Smith",
+                contactPhone: "555-1234",
+                units: 0,
+                notes: "Annual event targeting 100+ donations"
+            },
+            {
+                id: 2,
+                title: "Summer Blood Donation",
+                date: "2025-06-20",
+                time: "09:00 AM - 3:00 PM",
+                location: "Community Center, 456 Oak St",
+                status: "upcoming",
+                organizer: "Local Hospital",
+                contactPerson: "John Doe",
+                contactPhone: "555-5678",
+                units: 0,
+                notes: "Focus on youth donors"
+            },
+            // Additional blood drives are handled already in the HTML table
+        ];
+
+        // Event Listeners
+        addDriveBtn.addEventListener('click', openAddModal);
+        closeModal.addEventListener('click', closeBloodDriveModal);
+        closeDeleteModal.addEventListener('click', closeDeleteConfirmModal);
+        saveDrive.addEventListener('click', saveBloodDrive);
+        cancelDrive.addEventListener('click', closeBloodDriveModal);
+        cancelDelete.addEventListener('click', closeDeleteConfirmModal);
+        confirmDelete.addEventListener('click', deleteBloodDrive);
+        applyFilters.addEventListener('click', filterDrives);
+        resetFilters.addEventListener('click', resetFilterForm);
+
+        // Add event listeners to all edit and delete buttons
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const driveId = this.getAttribute('data-id');
+                openEditModal(driveId);
+            });
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const driveId = this.getAttribute('data-id');
+                openDeleteModal(driveId);
+            });
+        });
+
+        // Functions
+        function openAddModal() {
+            modalTitle.textContent = 'Add New Blood Drive';
+            bloodDriveForm.reset();
+            document.getElementById('driveId').value = '';
+            document.getElementById('driveStatus').value = 'upcoming';
+            document.getElementById('driveUnits').value = '0';
+            bloodDriveModal.style.display = 'flex';
+        }
+
+        function openEditModal(id) {
+            modalTitle.textContent = 'Edit Blood Drive';
+            
+            // Find the drive in the data
+            const row = document.querySelector(`button.edit-btn[data-id="${id}"]`).closest('tr');
+            const cells = row.cells;
+            
+            // Populate the form
+            document.getElementById('driveId').value = id;
+            document.getElementById('driveTitle').value = cells[0].textContent;
+            document.getElementById('driveDate').value = cells[1].textContent;
+            document.getElementById('driveTime').value = cells[2].textContent;
+            document.getElementById('driveLocation').value = cells[3].textContent;
+            
+            // Get status from the span class
+            const statusSpan = cells[4].querySelector('span');
+            let status = 'upcoming';
+            if (statusSpan.classList.contains('status-active')) status = 'active';
+            else if (statusSpan.classList.contains('status-completed')) status = 'completed';
+            else if (statusSpan.classList.contains('status-cancelled')) status = 'cancelled';
+            document.getElementById('driveStatus').value = status;
+            
+            document.getElementById('driveOrganizer').value = cells[5].textContent;
+            document.getElementById('driveContactPerson').value = cells[6].textContent;
+            document.getElementById('driveContactPhone').value = cells[7].textContent;
+            document.getElementById('driveUnits').value = cells[8].textContent;
+            
+            // Notes would be stored in the data object in a real application
+            // For this demo, we'll leave it blank when editing
+            document.getElementById('driveNotes').value = '';
+            
+            bloodDriveModal.style.display = 'flex';
+        }
+
+        function openDeleteModal(id) {
+            document.getElementById('deleteId').value = id;
+            deleteModal.style.display = 'flex';
+        }
+
+        function closeBloodDriveModal() {
+            bloodDriveModal.style.display = 'none';
+        }
+
+        function closeDeleteConfirmModal() {
+            deleteModal.style.display = 'none';
+        }
+
+        function saveBloodDrive() {
+            // Get form values
+            const id = document.getElementById('driveId').value;
+            const title = document.getElementById('driveTitle').value;
+            const date = document.getElementById('driveDate').value;
+            const time = document.getElementById('driveTime').value;
+            const location = document.getElementById('driveLocation').value;
+            const status = document.getElementById('driveStatus').value;
+            const organizer = document.getElementById('driveOrganizer').value;
+            const contactPerson = document.getElementById('driveContactPerson').value;
+            const contactPhone = document.getElementById('driveContactPhone').value;
+            const units = document.getElementById('driveUnits').value;
+            const notes = document.getElementById('driveNotes').value;
+            
+            // Form validation
+            if (!title || !date || !time || !location || !organizer || !contactPerson || !contactPhone) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            if (id) {
+                // Update existing drive
+                const row = document.querySelector(`button.edit-btn[data-id="${id}"]`).closest('tr');
+                const cells = row.cells;
+                
+                cells[0].textContent = title;
+                cells[1].textContent = date;
+                cells[2].textContent = time;
+                cells[3].textContent = location;
+                
+                // Update status with appropriate class
+                let statusHTML = '';
+                switch(status) {
+                    case 'active':
+                        statusHTML = '<span class="status status-active">Active</span>';
+                        break;
+                    case 'upcoming':
+                        statusHTML = '<span class="status status-upcoming">Upcoming</span>';
+                        break;
+                    case 'completed':
+                        statusHTML = '<span class="status status-completed">Completed</span>';
+                        break;
+                    case 'cancelled':
+                        statusHTML = '<span class="status status-cancelled">Cancelled</span>';
+                        break;
+                }
+                cells[4].innerHTML = statusHTML;
+                
+                cells[5].textContent = organizer;
+                cells[6].textContent = contactPerson;
+                cells[7].textContent = contactPhone;
+                cells[8].textContent = units;
+                
+                alert('Blood drive updated successfully!');
+            } else {
+                // Add new drive
+                const table = document.getElementById('bloodDrivesTable').getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow(0);
+                
+                // Generate new ID (in a real app, this would come from the server)
+                const newId = Math.max(...Array.from(document.querySelectorAll('.edit-btn')).map(btn => 
+                    parseInt(btn.getAttribute('data-id')))) + 1;
+                
+                // Insert cells
+                const titleCell = newRow.insertCell();
+                const dateCell = newRow.insertCell();
+                const timeCell = newRow.insertCell();
+                const locationCell = newRow.insertCell();
+                const statusCell = newRow.insertCell();
+                const organizerCell = newRow.insertCell();
+                const contactPersonCell = newRow.insertCell();
+                const contactPhoneCell = newRow.insertCell();
+                const unitsCell = newRow.insertCell();
+                const actionsCell = newRow.insertCell();
+                
+                // Add content to cells
+                titleCell.textContent = title;
+                dateCell.textContent = date;
+                timeCell.textContent = time;
+                locationCell.textContent = location;
+                
+                // Set status with appropriate class
+                let statusHTML = '';
+                switch(status) {
+                    case 'active':
+                        statusHTML = '<span class="status status-active">Active</span>';
+                        break;
+                    case 'upcoming':
+                        statusHTML = '<span class="status status-upcoming">Upcoming</span>';
+                        break;
+                    case 'completed':
+                        statusHTML = '<span class="status status-completed">Completed</span>';
+                        break;
+                    case 'cancelled':
+                        statusHTML = '<span class="status status-cancelled">Cancelled</span>';
+                        break;
+                }
+                statusCell.innerHTML = statusHTML;
+                
+                organizerCell.textContent = organizer;
+                contactPersonCell.textContent = contactPerson;
+                contactPhoneCell.textContent = contactPhone;
+                unitsCell.textContent = units;
+                
+                // Add action buttons
+                actionsCell.innerHTML = `
+                    <button class="btn btn-secondary edit-btn" data-id="${newId}">Edit</button>
+                    <button class="btn btn-danger delete-btn" data-id="${newId}">Delete</button>
+                `;
+                
+                // Add event listeners to new buttons
+                actionsCell.querySelector('.edit-btn').addEventListener('click', function() {
+                    openEditModal(newId);
+                });
+                
+                actionsCell.querySelector('.delete-btn').addEventListener('click', function() {
+                    openDeleteModal(newId);
+                });
+                
+                // Update stats card
+                const totalDrivesElement = document.querySelectorAll('.stat-card-value')[0];
+                const currentTotal = parseInt(totalDrivesElement.textContent);
+                totalDrivesElement.textContent = currentTotal + 1;
+                
+                // Update upcoming count if it's an upcoming drive
+                if (status === 'upcoming') {
+                    const upcomingDrivesElement = document.querySelectorAll('.stat-card-value')[2];
+                    const currentUpcoming = parseInt(upcomingDrivesElement.textContent);
+                    upcomingDrivesElement.textContent = currentUpcoming + 1;
+                }
+                
+                // Update active count if it's an active drive
+                if (status === 'active') {
+                    const activeDrivesElement = document.querySelectorAll('.stat-card-value')[1];
+                    const currentActive = parseInt(activeDrivesElement.textContent);
+                    activeDrivesElement.textContent = currentActive + 1;
+                }
+                
+                alert('New blood drive added successfully!');
+            }
+            
+            // Close modal
+            closeBloodDriveModal();
+        }
+
+        function deleteBloodDrive() {
+            const id = document.getElementById('deleteId').value;
+            const row = document.querySelector(`button.delete-btn[data-id="${id}"]`).closest('tr');
+            
+            // Get the status to update the stats
+            const statusSpan = row.cells[4].querySelector('span');
+            let status = 'upcoming';
+            if (statusSpan.classList.contains('status-active')) status = 'active';
+            else if (statusSpan.classList.contains('status-completed')) status = 'completed';
+            else if (statusSpan.classList.contains('status-cancelled')) status = 'cancelled';
+            
+            // Update stats
+            const totalDrivesElement = document.querySelectorAll('.stat-card-value')[0];
+            const currentTotal = parseInt(totalDrivesElement.textContent);
+            totalDrivesElement.textContent = Math.max(0, currentTotal - 1);
+            
+            if (status === 'active') {
+                const activeDrivesElement = document.querySelectorAll('.stat-card-value')[1];
+                const currentActive = parseInt(activeDrivesElement.textContent);
+                activeDrivesElement.textContent = Math.max(0, currentActive - 1);
+            }
+            
+            if (status === 'upcoming') {
+                const upcomingDrivesElement = document.querySelectorAll('.stat-card-value')[2];
+                const currentUpcoming = parseInt(upcomingDrivesElement.textContent);
+                upcomingDrivesElement.textContent = Math.max(0, currentUpcoming - 1);
+            }
+            
+            // Remove the row
+            row.remove();
+            
+            // Close modal
+            closeDeleteConfirmModal();
+            alert('Blood drive deleted successfully!');
+        }
+
+        function filterDrives() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const statusValue = statusFilter.value;
+            const fromDate = dateFrom.value;
+            const toDate = dateTo.value;
+            
+            const rows = document.querySelectorAll('#bloodDrivesTable tbody tr');
+            
+            rows.forEach(row => {
+                const title = row.cells[0].textContent.toLowerCase();
+                const location = row.cells[3].textContent.toLowerCase();
+                const date = row.cells[1].textContent;
+                
+                // Get status from the span class
+                const statusSpan = row.cells[4].querySelector('span');
+                let rowStatus = '';
+                if (statusSpan.classList.contains('status-active')) rowStatus = 'active';
+                else if (statusSpan.classList.contains('status-upcoming')) rowStatus = 'upcoming';
+                else if (statusSpan.classList.contains('status-completed')) rowStatus = 'completed';
+                else if (statusSpan.classList.contains('status-cancelled')) rowStatus = 'cancelled';
+                
+                let show = true;
+                
+                // Check search term
+                if (searchTerm && !(title.includes(searchTerm) || location.includes(searchTerm))) {
+                    show = false;
+                }
+                
+                // Check status
+                if (statusValue && rowStatus !== statusValue) {
+                    show = false;
+                }
+                
+                // Check date range
+                if (fromDate && date < fromDate) {
+                    show = false;
+                }
+                
+                if (toDate && date > toDate) {
+                    show = false;
+                }
+                
+                row.style.display = show ? '' : 'none';
+            });
+        }
+
+        function resetFilterForm() {
+            searchInput.value = '';
+            statusFilter.value = '';
+            dateFrom.value = '';
+            dateTo.value = '';
+            
+            // Show all rows
+            const rows = document.querySelectorAll('#bloodDrivesTable tbody tr');
+            rows.forEach(row => {
+                row.style.display = '';
+            });
+        }
+    </script>
+</body>
+</html>

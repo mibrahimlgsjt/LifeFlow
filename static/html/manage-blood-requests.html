@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Blood Requests - LifeFlow</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #f8d7da;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --gray: #adb5bd;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a6a8a;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d65f41;
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218a7e;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            margin-bottom: 0;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card-title {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: rgba(241, 250, 238, 0.5);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            position: relative;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            margin-bottom: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(69, 123, 157, 0.25);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card-title {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .stat-card-description {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pagination-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 0.5rem;
+            border-radius: 4px;
+            background-color: white;
+            color: var(--dark);
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--gray);
+        }
+
+        .pagination-item:hover {
+            background-color: var(--light-gray);
+        }
+
+        .pagination-item.active {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .pagination-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status indicators */
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        .status-fulfilled {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-cancelled {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .status-processing {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        /* Urgency indicators */
+        .urgency {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .urgency-high {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .urgency-medium {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        .urgency-low {
+            background-color: var(--success);
+            color: white;
+        }
+
+        /* Blood type indicators */
+        .blood-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.jpg">
+                    <h1>LifeFlow</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                    <li><a href="find-donors.html">Find Donors</a></li>
+                    <li><a href="request.html">Request</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-actions">
+                    <a href="logout.html" class="btn btn-outline">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Manage Blood Requests</h2>
+                <div class="dashboard-actions">
+                    <button class="btn btn-primary" id="addRequestBtn">Add New Request</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Requests</div>
+                    <div class="stat-card-value">24</div>
+                    <div class="stat-card-description">All blood requests</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Pending Requests</div>
+                    <div class="stat-card-value">8</div>
+                    <div class="stat-card-description">Awaiting fulfillment</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Processing</div>
+                    <div class="stat-card-value">5</div>
+                    <div class="stat-card-description">In progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Fulfilled</div>
+                    <div class="stat-card-value">11</div>
+                    <div class="stat-card-description">Completed requests</div>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label class="filter-label">Search</label>
+                    <input type="text" class="filter-input" id="searchInput" placeholder="Search by patient or hospital...">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="fulfilled">Fulfilled</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Blood Type</label>
+                    <select class="filter-input" id="bloodTypeFilter">
+                        <option value="">All Types</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Urgency</label>
+                    <select class="filter-input" id="urgencyFilter">
+                        <option value="">All Urgencies</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-secondary filter-btn" id="applyFilters">Apply Filters</button>
+                    <button class="btn btn-outline filter-btn" id="resetFilters">Reset</button>
+                </div>
+            </div>
+
+            <!-- Blood Requests Table -->
+            <div class="table-responsive">
+                <table id="bloodRequestsTable">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Patient Name</th>
+                            <th>Blood Type</th>
+                            <th>Units Required</th>
+                            <th>Hospital</th>
+                            <th>Request Date</th>
+                            <th>Needed By</th>
+                            <th>Urgency</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>REQ-1001</td>
+                            <td>John Smith</td>
+                            <td><span class="blood-type">A+</span></td>
+                            <td>2</td>
+                            <td>City General Hospital</td>
+                            <td>2025-05-01</td>
+                            <td>2025-05-05</td>
+                            <td><span class="urgency urgency-high">High</span></td>
+                            <td><span class="status status-pending">Pending</span></td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="1">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="1">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1002</td>
+                            <td>Maria Garcia</td>
+                            <td><span class="blood-type">B-</span></td>
+                            <td>1</td>
+                            <td>Regional Medical Center</td>
+                            <td>2025-05-02</td>
+                            <td>2025-05-10</td>
+                            <td><span class="urgency urgency-medium">Medium</span></td>
+                            <td><span class="status status-processing">Processing</span></td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="2">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="2">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1003</td>
+                            <td>Robert Johnson</td>
+                            <td><span class="blood-type">O+</span></td>
+                            <td>3</td>
+                            <td>University Hospital</td>
+                            <td>2025-04-28</td>
+                            <td>2025-05-03</td>
+                            <td><span class="urgency urgency-high">High</span></td>
+                            <td><span class="status status-fulfilled">Fulfilled</span></td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="3">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="3">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1004</td>
+                            <td>Sarah Williams</td>
+                            <td><span class="blood-type">AB+</span></td>
+                            <td>2</td>
+                            <td>Children's Hospital</td>
+                            <td>2025-05-03</td>
+                            <td>2025-05-15</td>
+                            <td><span class="urgency urgency-low">Low</span></td>
+                            <td><span class="status status-pending">Pending</span></td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="4">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="4">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1005</td>
+                            <td>David Lee</td>
+                            <td><span class="blood-type">A-</span></td>
+                            <td>4</td>
+                            <td>Veterans Hospital</td>
+                            <td>2025-04-30</td>
+                            <td>2025-05-02</td>
+                            <td><span class="urgency urgency-high">High</span></td>
+                            <td><span class="status status-fulfilled">Fulfilled</span></td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="5">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="5">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1006</td>
+                            <td>Emma Davis</td>
+                            <td><span class="blood-type">O-</span></td>
+                            <td>1</td>
+                            <td>Community Hospital</td>
+                            <td>2025-05-04</td>
+                            <td>2025-05-08</td>
+                            <td><span class="urgency urgency-medium">Medium</span></td>
+                            <td><span class="status status-processing">Processing</span></td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="6">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="6">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1007</td>
+                            <td>Michael Brown</td>
+                            <td><span class="blood-type">B+</span></td>
+                            <td>2</td>
+                            <td>Metropolitan Medical</td>
+                            <td>2025-05-01</td>
+                            <td>2025-05-07</td>
+                            <td><span class="urgency urgency-medium">Medium</span></td>
+                            <td><span class="status status-processing">Processing</span></td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="7">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="7">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1008</td>
+                            <td>Jennifer Wilson</td>
+                            <td><span class="blood-type">AB-</span></td>
+                            <td>3</td>
+                            <td>Specialty Clinic</td>
+                            <td>2025-04-29</td>
+                            <td>2025-05-05</td>
+                            <td><span class="urgency urgency-high">High</span></td>
+                            <td><span class="status status-fulfilled">Fulfilled</span></td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="8">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="8">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <a class="pagination-item disabled">&laquo;</a>
+                <a class="pagination-item active">1</a>
+                <a class="pagination-item">2</a>
+                <a class="pagination-item">3</a>
+                <a class="pagination-item">&raquo;</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Blood Request Modal -->
+    <div class="modal-overlay" id="bloodRequestModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Add New Blood Request</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bloodRequestForm">
+                    <input type="hidden" id="requestId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="requestPatient">Patient Name</label>
+                            <input type="text" class="form-control" id="requestPatient" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="requestHospital">Hospital/Clinic</label>
+                            <input type="text" class="form-control" id="requestHospital" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="requestBloodType">Blood Type</label>
+                            <select class="form-control" id="requestBloodType" required>
+                                <option value="">Select Blood Type</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="requestUnits">Units Required</label>
+                            <input type="number" class="form-control" id="requestUnits" min="1" value="1" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="requestDate">Request Date</label>
+                            <input type="date" class="form-control" id="requestDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="requestNeededBy">Needed By</label>
+                            <input type="date" class="form-control" id="requestNeededBy" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="requestUrgency">Urgency</label>
+                            <select class="form-control" id="requestUrgency" required>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="requestStatus">Status</label>
+                            <select class="form-control" id="requestStatus" required>
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="fulfilled">Fulfilled</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="requestNotes">Additional Notes</label>
+                        <textarea class="form-control" id="requestNotes" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelRequest">Cancel</button>
+                <button class="btn btn-primary" id="saveRequest">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close" id="closeDeleteModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this blood request? This action cannot be undone.</p>
+                <input type="hidden" id="deleteId">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelDelete">Cancel</button>
+                <button class="btn btn-danger" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">LifeFlow</div>
+                    <p>Connecting blood donors with recipients to save lives across the country.</p>
+                    <div class="social-links">
+                        <a href="#"><span>f</span></a>
+                        <a href="#"><span>t</span></a>
+                        <a href="#"><span>in</span></a>
+                        <a href="#"><span>ig</span></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>Email: info@lifeflow.org</li>
+                        <li>Phone: +123 456 7890</li>
+                        <li>Address: 123 Main St, City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+       // DOM Elements
+const addRequestBtn = document.getElementById('addRequestBtn');
+const bloodRequestModal = document.getElementById('bloodRequestModal');
+const deleteModal = document.getElementById('deleteModal');
+const closeModal = document.getElementById('closeModal');
+const closeDeleteModal = document.getElementById('closeDeleteModal');
+const bloodRequestForm = document.getElementById('bloodRequestForm');
+const modalTitle = document.getElementById('modalTitle');
+const saveRequest = document.getElementById('saveRequest');
+const cancelRequest = document.getElementById('cancelRequest');
+const cancelDelete = document.getElementById('cancelDelete');
+const confirmDelete = document.getElementById('confirmDelete');
+const searchInput = document.getElementById('searchInput');
+const statusFilter = document.getElementById('statusFilter');
+const bloodTypeFilter = document.getElementById('bloodTypeFilter');
+const urgencyFilter = document.getElementById('urgencyFilter');
+const applyFilters = document.getElementById('applyFilters');
+const resetFilters = document.getElementById('resetFilters');
+const bloodRequestsTable = document.getElementById('bloodRequestsTable');
+
+// Sample data storage for demo purposes
+let bloodRequests = [
+    {
+        id: 1,
+        requestId: "REQ-1001",
+        patient: "John Smith",
+        bloodType: "A+",
+        units: 2,
+        hospital: "City General Hospital",
+        requestDate: "2025-05-01",
+        neededBy: "2025-05-05",
+        urgency: "high",
+        status: "pending",
+        notes: "Emergency surgery scheduled"
+    },
+    {
+        id: 2,
+        requestId: "REQ-1002",
+        patient: "Maria Garcia",
+        bloodType: "B-",
+        units: 1,
+        hospital: "Regional Medical Center",
+        requestDate: "2025-05-02",
+        neededBy: "2025-05-10",
+        urgency: "medium",
+        status: "processing",
+        notes: "Regular transfusion"
+    },
+    {
+        id: 3,
+        requestId: "REQ-1003",
+        patient: "Robert Johnson",
+        bloodType: "O+",
+        units: 3,
+        hospital: "University Hospital",
+        requestDate: "2025-04-28",
+        neededBy: "2025-05-03",
+        urgency: "high",
+        status: "fulfilled",
+        notes: "Completed successfully"
+    },
+    {
+        id: 4,
+        requestId: "REQ-1004",
+        patient: "Sarah Williams",
+        bloodType: "AB+",
+        units: 2,
+        hospital: "Children's Hospital",
+        requestDate: "2025-05-03",
+        neededBy: "2025-05-15",
+        urgency: "low",
+        status: "pending",
+        notes: "Scheduled surgery"
+    }
+];
+
+// Function to open modal
+function openModal(modal) {
+    modal.style.display = 'flex';
+}
+
+// Function to close modal
+function closeModalFunc(modal) {
+    modal.style.display = 'none';
+}
+
+// Function to get today's date in YYYY-MM-DD format
+function getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Event listener to open the Add New Request modal
+addRequestBtn.addEventListener('click', () => {
+    modalTitle.textContent = 'Add New Blood Request';
+    bloodRequestForm.reset();
+    document.getElementById('requestId').value = ''; // Clear hidden request ID field
+    
+    // Set default dates
+    document.getElementById('requestDate').value = getTodayDate();
+    const neededByDate = new Date();
+    neededByDate.setDate(neededByDate.getDate() + 7); // Default to one week from today
+    document.getElementById('requestNeededBy').value = neededByDate.toISOString().split('T')[0];
+    
+    openModal(bloodRequestModal);
+});
+
+// Event listeners to close modals
+closeModal.addEventListener('click', () => closeModalFunc(bloodRequestModal));
+closeDeleteModal.addEventListener('click', () => closeModalFunc(deleteModal));
+cancelRequest.addEventListener('click', () => closeModalFunc(bloodRequestModal));
+cancelDelete.addEventListener('click', () => closeModalFunc(deleteModal));
+
+// Save new or edited blood request
+saveRequest.addEventListener('click', () => {
+    const requestId = document.getElementById('requestId').value;
+    const patient = document.getElementById('requestPatient').value;
+    const bloodType = document.getElementById('requestBloodType').value;
+    const units = document.getElementById('requestUnits').value;
+    const hospital = document.getElementById('requestHospital').value;
+    const requestDate = document.getElementById('requestDate').value;
+    const neededBy = document.getElementById('requestNeededBy').value;
+    const urgency = document.getElementById('requestUrgency').value;
+    const status = document.getElementById('requestStatus').value;
+    const notes = document.getElementById('requestNotes').value;
+    
+    // Basic validation
+    if (!patient || !bloodType || !units || !hospital || !requestDate || !neededBy || !urgency || !status) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    const newRequest = {
+        id: requestId ? parseInt(requestId) : Math.max(...bloodRequests.map(req => req.id), 0) + 1,
+        requestId: requestId ? bloodRequests.find(req => req.id === parseInt(requestId)).requestId : `REQ-${Math.floor(1000 + Math.random() * 9000)}`,
+        patient: patient,
+        bloodType: bloodType,
+        units: parseInt(units),
+        hospital: hospital,
+        requestDate: requestDate,
+        neededBy: neededBy,
+        urgency: urgency,
+        status: status,
+        notes: notes
+    };
+
+    if (requestId) {
+        // Update existing request
+        const index = bloodRequests.findIndex(req => req.id === parseInt(requestId));
+        if (index !== -1) {
+            bloodRequests[index] = newRequest;
+        }
+    } else {
+        // Add new request
+        bloodRequests.push(newRequest);
+    }
+
+    // Close modal and refresh table
+    closeModalFunc(bloodRequestModal);
+    renderBloodRequests();
+});
+
+// Delete blood request
+confirmDelete.addEventListener('click', () => {
+    const deleteId = parseInt(document.getElementById('deleteId').value);
+    bloodRequests = bloodRequests.filter(req => req.id !== deleteId);
+    closeModalFunc(deleteModal);
+    renderBloodRequests();
+});
+
+// Event delegation for edit and delete buttons
+document.addEventListener('click', function(e) {
+    // Handle edit buttons
+    if (e.target && e.target.classList.contains('edit-btn')) {
+        const requestId = parseInt(e.target.getAttribute('data-id'));
+        const request = bloodRequests.find(req => req.id === requestId);
+        
+        if (request) {
+            document.getElementById('requestId').value = request.id;
+            document.getElementById('requestPatient').value = request.patient;
+            document.getElementById('requestBloodType').value = request.bloodType;
+            document.getElementById('requestUnits').value = request.units;
+            document.getElementById('requestHospital').value = request.hospital;
+            document.getElementById('requestDate').value = request.requestDate;
+            document.getElementById('requestNeededBy').value = request.neededBy;
+            document.getElementById('requestUrgency').value = request.urgency;
+            document.getElementById('requestStatus').value = request.status;
+            document.getElementById('requestNotes').value = request.notes || '';
+            
+            modalTitle.textContent = 'Edit Blood Request';
+            openModal(bloodRequestModal);
+        }
+    }
+    
+    // Handle delete buttons
+    if (e.target && e.target.classList.contains('delete-btn')) {
+        const requestId = parseInt(e.target.getAttribute('data-id'));
+        document.getElementById('deleteId').value = requestId;
+        openModal(deleteModal);
+    }
+});
+
+// Render blood requests in the table
+function renderBloodRequests() {
+    const tableBody = document.querySelector('#bloodRequestsTable tbody');
+    tableBody.innerHTML = '';
+
+    bloodRequests.forEach(request => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${request.requestId}</td>
+            <td>${request.patient}</td>
+            <td><span class="blood-type">${request.bloodType}</span></td>
+            <td>${request.units}</td>
+            <td>${request.hospital}</td>
+            <td>${request.requestDate}</td>
+            <td>${request.neededBy}</td>
+            <td><span class="urgency urgency-${request.urgency}">${request.urgency.charAt(0).toUpperCase() + request.urgency.slice(1)}</span></td>
+            <td><span class="status status-${request.status}">${request.status.charAt(0).toUpperCase() + request.status.slice(1)}</span></td>
+            <td>
+                <button class="btn btn-secondary edit-btn" data-id="${request.id}">Edit</button>
+                <button class="btn btn-danger delete-btn" data-id="${request.id}">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+    
+    // Update stats
+    updateStats();
+}
+
+// Apply filters
+applyFilters.addEventListener('click', () => {
+    const searchValue = searchInput.value.toLowerCase();
+    const statusValue = statusFilter.value;
+    const bloodTypeValue = bloodTypeFilter.value;
+    const urgencyValue = urgencyFilter.value;
+
+    const filteredRequests = bloodRequests.filter(req => {
+        return (
+            (!searchValue || 
+             req.patient.toLowerCase().includes(searchValue) || 
+             req.hospital.toLowerCase().includes(searchValue) ||
+             req.requestId.toLowerCase().includes(searchValue)) &&
+            (!statusValue || req.status === statusValue) &&
+            (!bloodTypeValue || req.bloodType === bloodTypeValue) &&
+            (!urgencyValue || req.urgency === urgencyValue)
+        );
+    });
+
+    renderFilteredRequests(filteredRequests);
+});
+
+// Reset filters
+resetFilters.addEventListener('click', () => {
+    searchInput.value = '';
+    statusFilter.value = '';
+    bloodTypeFilter.value = '';
+    urgencyFilter.value = '';
+    renderBloodRequests();
+});
+
+// Render filtered requests
+function renderFilteredRequests(filteredRequests) {
+    const tableBody = document.querySelector('#bloodRequestsTable tbody');
+    tableBody.innerHTML = '';
+
+    if (filteredRequests.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td colspan="10" style="text-align: center;">No matching records found</td>
+        `;
+        tableBody.appendChild(row);
+        return;
+    }
+
+    filteredRequests.forEach(request => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${request.requestId}</td>
+            <td>${request.patient}</td>
+            <td><span class="blood-type">${request.bloodType}</span></td>
+            <td>${request.units}</td>
+            <td>${request.hospital}</td>
+            <td>${request.requestDate}</td>
+            <td>${request.neededBy}</td>
+            <td><span class="urgency urgency-${request.urgency}">${request.urgency.charAt(0).toUpperCase() + request.urgency.slice(1)}</span></td>
+            <td><span class="status status-${request.status}">${request.status.charAt(0).toUpperCase() + request.status.slice(1)}</span></td>
+            <td>
+                <button class="btn btn-secondary edit-btn" data-id="${request.id}">Edit</button>
+                <button class="btn btn-danger delete-btn" data-id="${request.id}">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Update statistics section
+function updateStats() {
+    const totalRequests = bloodRequests.length;
+    const pendingRequests = bloodRequests.filter(req => req.status === 'pending').length;
+    const processingRequests = bloodRequests.filter(req => req.status === 'processing').length;
+    const fulfilledRequests = bloodRequests.filter(req => req.status === 'fulfilled').length;
+    
+    document.querySelector('.stats-container .stat-card:nth-child(1) .stat-card-value').textContent = totalRequests;
+    document.querySelector('.stats-container .stat-card:nth-child(2) .stat-card-value').textContent = pendingRequests;
+    document.querySelector('.stats-container .stat-card:nth-child(3) .stat-card-value').textContent = processingRequests;
+    document.querySelector('.stats-container .stat-card:nth-child(4) .stat-card-value').textContent = fulfilledRequests;
+}
+
+// Initial render
+renderBloodRequests();
+    </script>

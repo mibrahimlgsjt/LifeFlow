@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - LifeFlow</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #f8d7da;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --gray: #adb5bd;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .dashboard-title {
+            margin-bottom: 0;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card-title {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        .main-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: rgba(241, 250, 238, 0.5);
+        }
+
+        /* Blood Type Indicators */
+        .blood-type {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Status Pills */
+        .status-pill {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        .status-fulfilled {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-urgent {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* Cards */
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            margin-bottom: 0;
+            font-size: 1.25rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-item {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 600;
+        }
+
+        .tab-item.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* Form */
+        .form-section {
+            padding: 2rem 0;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(69, 123, 157, 0.25);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Admin specific */
+        .admin-sidebar {
+            width: 250px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .admin-sidebar-menu {
+            list-style: none;
+        }
+
+        .admin-sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-sidebar-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            color: var(--dark);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .admin-sidebar-menu a:hover {
+            background-color: var(--light);
+            text-decoration: none;
+        }
+
+        .admin-sidebar-menu a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .admin-content {
+            flex: 1;
+            padding: 1.5rem;
+        }
+
+        .admin-dashboard {
+            display: flex;
+            gap: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-dashboard {
+                flex-direction: column;
+            }
+            
+            .admin-sidebar {
+                width: 100%;
+                margin-bottom: 5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.jpg">
+                    <h1>LifeFlow</h1>
+                </div>
+                <div class="menu-toggle">
+                    <i>≡</i>
+                </div>
+                <div class="user-actions">
+                    <a href="logout.html" class="btn btn-outline">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Admin Dashboard -->
+    <div class="container dashboard">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Admin Dashboard</h1>
+            <div class="dashboard-actions">
+                <a href="add-blood-drive.html" class="btn btn-primary">Add Blood Drive</a>
+            </div>
+        </div>
+
+        <div class="admin-dashboard">
+            <div class="admin-sidebar">
+                <ul class="admin-sidebar-menu">
+                    <li><a href="admin-dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="manage-blood-drives.html">Blood Drives</a></li>
+                    <li><a href="manage-blood-requests.html">Blood Requests</a></li>
+                    <li><a href="manage-blood-donations.html">Blood Donations</a></li>
+                    <li><a href="manage-donors.html">Donors</a></li>
+                    <li><a href="manage-recipients.html">Recipients</a></li>
+                </ul>
+            </div>
+
+            <div class="admin-content">
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-card-title">Total Donors</div>
+                        <div class="stat-card-value">5,247</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Active Blood Requests</div>
+                        <div class="stat-card-value">152</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Blood Drives This Month</div>
+                        <div class="stat-card-value">18</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Total Donations</div>
+                        <div class="stat-card-value">3,582</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Blood Requests</h3>
+                        <a href="manage-blood-requests.html">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Request ID</th>
+                                        <th>Name</th>
+                                        <th>Blood Type</th>
+                                        <th>Location</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>REQ-2025-1284</td>
+                                        <td>John Smith</td>
+                                        <td>
+                                            <div class="blood-type">A+</div>
+                                        </td>
+                                        <td>Central Hospital, New York</td>
+                                        <td>May 05, 2025</td>
+                                        <td><span class="status-pill status-urgent">Urgent</span></td>
+                                        <td>
+                                            <a href="#" class="btn btn-secondary">Details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>REQ-2025-1283</td>
+                                        <td>Emily Johnson</td>
+                                        <td>
+                                            <div class="blood-type">O-</div>
+                                        </td>
+                                        <td>Memorial Hospital, Boston</td>
+                                        <td>May 04, 2025</td>
+                                        <td><span class="status-pill status-pending">Pending</span></td>
+                                        <td>
+                                            <a href="#" class="btn btn-secondary">Details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>REQ-2025-1282</td>
+                                        <td>Robert Davis</td>
+                                        <td>
+                                            <div class="blood-type">B+</div>
+                                        </td>
+                                        <td>City Medical Center, Chicago</td>
+                                        <td>May 04, 2025</td>
+                                        <td><span class="status-pill status-fulfilled">Fulfilled</span></td>
+                                        <td>
+                                            <a href="#" class="btn btn-secondary">Details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>REQ-2025-1281</td>
+                                        <td>Sarah Wilson</td>
+                                        <td>
+                                            <div class="blood-type">AB+</div>
+                                        </td>
+                                        <td>County Hospital, Los Angeles</td>
+                                        <td>May 03, 2025</td>
+                                        <td><span class="status-pill status-pending">Pending</span></td>
+                                        <td>
+                                            <a href="#" class="btn btn-secondary">Details</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Upcoming Blood Drives</h3>
+                        <a href="manage-blood-drives.html">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Drive ID</th>
+                                        <th>Location</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Registered Donors</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DRV-2025-042</td>
+                                        <td>Central Park Community Center</td>
+                                        <td>May 10, 2025</td>
+                                        <td>9:00 AM - 5:00 PM</td>
+                                        <td>28/50</td>
+                                        <td>
+                                            <a href="#" class="btn btn-secondary">Manage</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>DRV-2025-043</td>
+                                        <td>Downtown Public Library</td>
+                                        <td>May 12, 2025</td>
+                                        <td>10:00 AM - 4:00 PM</td>
+                                        <td>15/40</td>
+                                        <td>
+                                            <a href="#" class="btn btn-secondary">Manage</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>DRV-2025-044</td>
+                                        <td>Riverside Church</td>
+                                        <td>May 15, 2025</td>
+                                        <td>8:00 AM - 3:00 PM</td>
+                                        <td>32/45</td>
+                                        <td>
+                                            <a href="#" class="btn btn-secondary">Manage</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>DRV-2025-045</td>
+                                        <td>East Side High School</td>
+                                        <td>May 18, 2025</td>
+                                        <td>11:00 AM - 6:00 PM</td>
+                                        <td>12/60</td>
+                                        <td>
+                                            <a href="#" class="btn btn-secondary">Manage</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">LifeFlow</div>
+                    <p>Connecting blood donors with recipients to save lives across the country.</p>
+                    <div class="social-links">
+                        <a href="#"><span>f</span></a>
+                        <a href="#"><span>t</span></a>
+                        <a href="#"><span>in</span></a>
+                        <a href="#"><span>ig</span></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>Email: info@lifeflow.org</li>
+                        <li>Phone: +123 456 7890</li>
+                        <li>Address: 123 Main St, City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple toggle for mobile menu
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Donors - LifeFlow</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #f8d7da;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --gray: #adb5bd;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a6a8a;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d65f41;
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218a7e;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            margin-bottom: 0;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card-title {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: rgba(241, 250, 238, 0.5);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            position: relative;
+            /* Add or modify these properties: */
+            overflow-y: auto; /* Enable scrolling within the modal if content overflows */
+            max-height: 80vh;  /* Optional: Set a maximum height for the modal */
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            margin-bottom: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(69, 123, 157, 0.25);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card-title {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .stat-card-description {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pagination-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 0.5rem;
+            border-radius: 4px;
+            background-color: white;
+            color: var(--dark);
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--gray);
+        }
+
+        .pagination-item:hover {
+            background-color: var(--light-gray);
+        }
+
+        .pagination-item.active {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .pagination-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status indicators */
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-inactive {
+            background-color: var(--gray);
+            color: white;
+        }
+
+        .status-eligible {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-ineligible {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.jpg">
+                    <h1>LifeFlow</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                    <li><a href="find-donors.html">Find Donors</a></li>
+                    <li><a href="request.html">Request</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-actions">
+                    <a href="logout.html" class="btn btn-outline">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Manage Donors</h2>
+                <div class="dashboard-actions">
+                    <button class="btn btn-primary" id="addDonorBtn">Add New Donor</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Donors</div>
+                    <div class="stat-card-value">324</div>
+                    <div class="stat-card-description">Registered donors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Active Donors</div>
+                    <div class="stat-card-value">186</div>
+                    <div class="stat-card-description">Donated in last 6 months</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Eligible Donors</div>
+                    <div class="stat-card-value">253</div>
+                    <div class="stat-card-description">Currently eligible to donate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Donations</div>
+                    <div class="stat-card-value">742</div>
+                    <div class="stat-card-description">All time donations</div>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label class="filter-label">Search</label>
+                    <input type="text" class="filter-input" id="searchInput" placeholder="Search by name or email...">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Blood Type</label>
+                    <select class="filter-input" id="bloodTypeFilter">
+                        <option value="">All Blood Types</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="eligible">Eligible</option>
+                        <option value="ineligible">Ineligible</option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-secondary filter-btn" id="applyFilters">Apply Filters</button>
+                    <button class="btn btn-outline filter-btn" id="resetFilters">Reset</button>
+                </div>
+            </div>
+
+            <!-- Donors Table -->
+            <div class="table-responsive">
+                <table id="donorsTable">
+                    <thead>
+                        <tr>
+                            <th>Donor ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Blood Type</th>
+                            <th>Last Donation</th>
+                            <th>Status</th>
+                            <th>Total Donations</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>D-001</td>
+                            <td>John Smith</td>
+                            <td>john.smith@example.com</td>
+                            <td>555-1234</td>
+                            <td>O+</td>
+                            <td>2025-04-10</td>
+                            <td><span class="status status-eligible">Eligible</span></td>
+                            <td>8</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="1">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="1">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D-002</td>
+                            <td>Sarah Johnson</td>
+                            <td>sarah.j@example.com</td>
+                            <td>555-5678</td>
+                            <td>A-</td>
+                            <td>2025-03-22</td>
+                            <td><span class="status status-ineligible">Ineligible</span></td>
+                            <td>5</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="2">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="2">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D-003</td>
+                            <td>Michael Brown</td>
+                            <td>michael.b@example.com</td>
+                            <td>555-9012</td>
+                            <td>B+</td>
+                            <td>2025-01-15</td>
+                            <td><span class="status status-eligible">Eligible</span></td>
+                            <td>12</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="3">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="3">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D-004</td>
+                            <td>Emily Davis</td>
+                            <td>emily.d@example.com</td>
+                            <td>555-3456</td>
+                            <td>AB+</td>
+                            <td>2024-11-05</td>
+                            <td><span class="status status-eligible">Eligible</span></td>
+                            <td>3</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="4">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="4">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D-005</td>
+                            <td>Robert Wilson</td>
+                            <td>robert.w@example.com</td>
+                            <td>555-7890</td>
+                            <td>O-</td>
+                            <td>2025-04-20</td>
+                            <td><span class="status status-ineligible">Ineligible</span></td>
+                            <td>15</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="5">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="5">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D-006</td>
+                            <td>Amanda Martinez</td>
+                            <td>amanda.m@example.com</td>
+                            <td>555-2345</td>
+                            <td>A+</td>
+                            <td>-</td>
+                            <td><span class="status status-inactive">Inactive</span></td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="6">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="6">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D-007</td>
+                            <td>David Thompson</td>
+                            <td>david.t@example.com</td>
+                            <td>555-6789</td>
+                            <td>B-</td>
+                            <td>2025-02-10</td>
+                            <td><span class="status status-eligible">Eligible</span></td>
+                            <td>7</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="7">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="7">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D-008</td>
+                            <td>Jennifer Lee</td>
+                            <td>jennifer.l@example.com</td>
+                            <td>555-0123</td>
+                            <td>AB-</td>
+                            <td>2024-12-05</td>
+                            <td><span class="status status-eligible">Eligible</span></td>
+                            <td>4</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="8">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="8">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D-009</td>
+                            <td>James Wilson</td>
+                            <td>james.w@example.com</td>
+                            <td>555-4567</td>
+                            <td>O+</td>
+                            <td>2025-03-15</td>
+                            <td><span class="status status-ineligible">Ineligible</span></td>
+                            <td>10</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="9">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="9">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D-010</td>
+                            <td>Lisa Garcia</td>
+                            <td>lisa.g@example.com</td>
+                            <td>555-8901</td>
+                            <td>A+</td>
+                            <td>2025-01-25</td>
+                            <td><span class="status status-eligible">Eligible</span></td>
+                            <td>6</td>
+                            <td>
+                                <button class="btn btn-secondary edit-btn" data-id="10">Edit</button>
+                                <button class="btn btn-danger delete-btn" data-id="10">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <a class="pagination-item disabled">&laquo;</a>
+                <a class="pagination-item active">1</a>
+                <a class="pagination-item">2</a>
+                <a class="pagination-item">3</a>
+                <a class="pagination-item">&raquo;</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Donor Modal -->
+    <div class="modal-overlay" id="donorModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Add New Donor</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="donorForm">
+                    <input type="hidden" id="donorId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="donorName">Full Name</label>
+                            <input type="text" class="form-control" id="donorName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="donorEmail">Email</label>
+                            <input type="email" class="form-control" id="donorEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="donorPhone">Phone</label>
+                            <input type="tel" class="form-control" id="donorPhone" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="donorDOB">Date of Birth</label>
+                            <input type="date" class="form-control" id="donorDOB" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="donorGender">Gender</label>
+                            <select class="form-control" id="donorGender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                                <option value="prefer-not">Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="donorBloodType">Blood Type</label>
+                            <select class="form-control" id="donorBloodType" required>
+                                <option value="">Select Blood Type</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="donorWeight">Weight (kg)</label>
+                            <input type="number" class="form-control" id="donorWeight" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="donorAddress">Address</label>
+                            <textarea class="form-control" id="donorAddress" rows="2" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="donorCity">City</label>
+                            <input type="text" class="form-control" id="donorCity" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="donorState">State/Province</label>
+                            <input type="text" class="form-control" id="donorState" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="donorZip">Zip/Postal Code</label>
+                            <input type="text" class="form-control" id="donorZip" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="donorLastDonation">Last Donation Date</label>
+                            <input type="date" class="form-control" id="donorLastDonation">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="donorEligibility">Eligibility Status</label>
+                            <select class="form-control" id="donorEligibility" required>
+                                <option value="eligible">Eligible</option>
+                                <option value="ineligible-temp">Temporarily Ineligible</option>
+                                <option value="ineligible-perm">Permanently Ineligible</option>
+                                <option value="needs-screening">Needs Screening</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="donorNotes">Medical Notes</label>
+                        <textarea class="form-control" id="donorNotes" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelDonor">Cancel</button>
+                <button class="btn btn-primary" id="saveDonor">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close" id="closeDeleteModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this donor? This action cannot be undone.</p>
+                <input type="hidden" id="deleteId">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelDelete">Cancel</button>
+                <button class="btn btn-danger" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">LifeFlow</div>
+                    <p>Connecting blood donors with recipients to save lives across the country.</p>
+                    <div class="social-links">
+                        <a href="#"><span>f</span></a>
+                        <a href="#"><span>t</span></a>
+                        <a href="#"><span>in</span></a>
+                        <a href="#"><span>ig</span></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>Email: info@lifeflow.org</li>
+                        <li>Phone: +123 456 7890</li>
+                        <li>Address: 123 Main St, City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeFlow Blood Donation Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+const addDonorBtn = document.getElementById('addDonorBtn');
+const donorModal = document.getElementById('donorModal');
+const deleteModal = document.getElementById('deleteModal');
+const closeModal = document.getElementById('closeModal');
+const closeDeleteModal = document.getElementById('closeDeleteModal');
+const donorForm = document.getElementById('donorForm');
+const modalTitle = document.getElementById('modalTitle');
+const saveDonor = document.getElementById('saveDonor');
+const cancelDonor = document.getElementById('cancelDonor');
+const cancelDelete = document.getElementById('cancelDelete');
+const confirmDelete = document.getElementById('confirmDelete');
+const searchInput = document.getElementById('searchInput');
+const bloodTypeFilter = document.getElementById('bloodTypeFilter');
+const statusFilter = document.getElementById('statusFilter'); // Fixed to match the actual HTML ID
+const applyFilters = document.getElementById('applyFilters');
+const resetFilters = document.getElementById('resetFilters');
+
+// Sample data storage for demo purposes
+let donors = [
+    {
+        id: 1,
+        name: "John Smith",
+        email: "john.smith@example.com",
+        phone: "555-1234",
+        dob: "1985-06-15",
+        gender: "male",
+        bloodType: "O+",
+        weight: 75,
+        address: "123 Main Street",
+        city: "Cityville",
+        state: "State",
+        zip: "12345",
+        lastDonation: "2025-04-10",
+        eligibility: "eligible",
+        notes: "No allergies or medical conditions"
+    },
+    {
+        id: 2,
+        name: "Sarah Johnson",
+        email: "sarah.j@example.com",
+        phone: "555-5678",
+        dob: "1990-02-22",
+        gender: "female",
+        bloodType: "A-",
+        weight: 65,
+        address: "456 Elm Avenue",
+        city: "Townsburg",
+        state: "State",
+        zip: "67890",
+        lastDonation: "2025-03-22",
+        eligibility: "ineligible",
+        notes: "Mild iron deficiency in the past"
+    },
+    // Additional donors are handled already in the HTML table
+];
+
+// Event Listeners
+addDonorBtn.addEventListener('click', openAddModal);
+closeModal.addEventListener('click', closeDonorModal);
+closeDeleteModal.addEventListener('click', closeDeleteConfirmModal);
+saveDonor.addEventListener('click', saveDonorInfo);
+cancelDonor.addEventListener('click', closeDonorModal);
+cancelDelete.addEventListener('click', closeDeleteConfirmModal);
+confirmDelete.addEventListener('click', deleteDonor);
+applyFilters.addEventListener('click', filterDonors);
+resetFilters.addEventListener('click', resetFilterForm);
+
+// Add event listeners to all edit and delete buttons
+document.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const donorId = this.getAttribute('data-id');
+        openEditModal(donorId);
+    });
+});
+
+document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const donorId = this.getAttribute('data-id');
+        openDeleteModal(donorId);
+    });
+});
+
+// Functions
+function openAddModal() {
+    modalTitle.textContent = 'Add New Donor';
+    donorForm.reset();
+    document.getElementById('donorId').value = '';
+    document.getElementById('donorEligibility').value = 'eligible';
+    donorModal.style.display = 'flex';
+}
+
+function openEditModal(id) {
+    modalTitle.textContent = 'Edit Donor';
+    
+    // Find the donor row in the table
+    const row = document.querySelector(`button.edit-btn[data-id="${id}"]`).closest('tr');
+    const cells = row.cells;
+    
+    // Populate the form with data from the table
+    document.getElementById('donorId').value = id;
+    document.getElementById('donorName').value = cells[1].textContent; // Name is in column 1
+    document.getElementById('donorEmail').value = cells[2].textContent; // Email is in column 2
+    document.getElementById('donorPhone').value = cells[3].textContent; // Phone is in column 3
+    document.getElementById('donorBloodType').value = cells[4].textContent; // Blood Type is in column 4
+    
+    // For fields not directly visible in the table, set placeholders or use donor data
+    const donor = donors.find(d => d.id == id) || {};
+    document.getElementById('donorDOB').value = donor.dob || '1990-01-01'; // Placeholder
+    document.getElementById('donorGender').value = donor.gender || 'prefer-not'; // Placeholder
+    document.getElementById('donorWeight').value = donor.weight || '70'; // Placeholder
+    document.getElementById('donorAddress').value = donor.address || 'Address Line'; // Placeholder
+    document.getElementById('donorCity').value = donor.city || 'City'; // Placeholder
+    document.getElementById('donorState').value = donor.state || 'State'; // Placeholder
+    document.getElementById('donorZip').value = donor.zip || '12345'; // Placeholder
+    document.getElementById('donorLastDonation').value = cells[5].textContent !== '-' ? cells[5].textContent : ''; // Last donation date
+    
+    // Get eligibility from the span class
+    const eligibilitySpan = cells[6].querySelector('span');
+    let eligibility = 'eligible';
+    
+    if (eligibilitySpan) {
+        if (eligibilitySpan.classList.contains('status-ineligible')) {
+            eligibility = 'ineligible-temp';
+        } else if (eligibilitySpan.classList.contains('status-inactive')) {
+            eligibility = 'ineligible-perm';
+        }
+    }
+    
+    document.getElementById('donorEligibility').value = eligibility;
+    document.getElementById('donorNotes').value = donor.notes || ''; // Notes would be in the data object
+    
+    donorModal.style.display = 'flex';
+}
+
+function openDeleteModal(id) {
+    document.getElementById('deleteId').value = id;
+    deleteModal.style.display = 'flex';
+}
+
+function closeDonorModal() {
+    donorModal.style.display = 'none';
+}
+
+function closeDeleteConfirmModal() {
+    deleteModal.style.display = 'none';
+}
+
+function saveDonorInfo() {
+    // Get form values
+    const id = document.getElementById('donorId').value;
+    const name = document.getElementById('donorName').value;
+    const email = document.getElementById('donorEmail').value;
+    const phone = document.getElementById('donorPhone').value;
+    const dob = document.getElementById('donorDOB').value;
+    const gender = document.getElementById('donorGender').value;
+    const bloodType = document.getElementById('donorBloodType').value;
+    const weight = document.getElementById('donorWeight').value;
+    const address = document.getElementById('donorAddress').value;
+    const city = document.getElementById('donorCity').value;
+    const state = document.getElementById('donorState').value;
+    const zip = document.getElementById('donorZip').value;
+    const lastDonation = document.getElementById('donorLastDonation').value;
+    const eligibility = document.getElementById('donorEligibility').value;
+    const notes = document.getElementById('donorNotes').value;
+    
+    // Form validation
+    if (!name || !email || !phone || !dob || !gender || !bloodType || !weight || !address || !city || !state || !zip) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    if (id) {
+        // Update existing donor
+        const row = document.querySelector(`button.edit-btn[data-id="${id}"]`).closest('tr');
+        const cells = row.cells;
+        
+        // Update row data
+        cells[1].textContent = name;
+        cells[2].textContent = email;
+        cells[3].textContent = phone;
+        cells[4].textContent = bloodType;
+        cells[5].textContent = lastDonation || '-';
+        
+        // Update eligibility with appropriate class
+        let eligibilityHTML = '';
+        switch(eligibility) {
+            case 'eligible':
+                eligibilityHTML = '<span class="status status-eligible">Eligible</span>';
+                break;
+            case 'ineligible-temp':
+            case 'ineligible-perm':
+                eligibilityHTML = '<span class="status status-ineligible">Ineligible</span>';
+                break;
+            case 'needs-screening':
+                eligibilityHTML = '<span class="status status-inactive">Inactive</span>';
+                break;
+        }
+        cells[6].innerHTML = eligibilityHTML;
+        
+        // Update donor in the data array
+        const donorIndex = donors.findIndex(d => d.id == id);
+        if (donorIndex !== -1) {
+            donors[donorIndex] = {
+                id: parseInt(id),
+                name, email, phone, dob, gender, bloodType, weight,
+                address, city, state, zip, lastDonation, eligibility, notes
+            };
+        }
+        
+        alert('Donor information updated successfully!');
+    } else {
+        // Add new donor
+        const table = document.getElementById('donorsTable').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow(0);
+        
+        // Generate new ID (in a real app, this would come from the server)
+        const buttons = document.querySelectorAll('.edit-btn');
+        const ids = Array.from(buttons).map(btn => parseInt(btn.getAttribute('data-id')));
+        const newId = ids.length > 0 ? Math.max(...ids) + 1 : 1;
+        
+        // Insert cells
+        const idCell = newRow.insertCell();
+        const nameCell = newRow.insertCell();
+        const emailCell = newRow.insertCell();
+        const phoneCell = newRow.insertCell();
+        const bloodTypeCell = newRow.insertCell();
+        const lastDonationCell = newRow.insertCell();
+        const eligibilityCell = newRow.insertCell();
+        const totalDonationsCell = newRow.insertCell();
+        const actionsCell = newRow.insertCell();
+        
+        // Add content to cells
+        idCell.textContent = `D-${String(newId).padStart(3, '0')}`;
+        nameCell.textContent = name;
+        emailCell.textContent = email;
+        phoneCell.textContent = phone;
+        bloodTypeCell.textContent = bloodType;
+        lastDonationCell.textContent = lastDonation || '-';
+        totalDonationsCell.textContent = '0';
+        
+        // Set eligibility with appropriate class
+        let eligibilityHTML = '';
+        switch(eligibility) {
+            case 'eligible':
+                eligibilityHTML = '<span class="status status-eligible">Eligible</span>';
+                break;
+            case 'ineligible-temp':
+            case 'ineligible-perm':
+                eligibilityHTML = '<span class="status status-ineligible">Ineligible</span>';
+                break;
+            case 'needs-screening':
+                eligibilityHTML = '<span class="status status-inactive">Inactive</span>';
+                break;
+        }
+        eligibilityCell.innerHTML = eligibilityHTML;
+        
+        // Add action buttons
+        actionsCell.innerHTML = `
+            <button class="btn btn-secondary edit-btn" data-id="${newId}">Edit</button>
+            <button class="btn btn-danger delete-btn" data-id="${newId}">Delete</button>
+        `;
+        
+        // Add event listeners to new buttons
+        actionsCell.querySelector('.edit-btn').addEventListener('click', function() {
+            openEditModal(newId);
+        });
+        
+        actionsCell.querySelector('.delete-btn').addEventListener('click', function() {
+            openDeleteModal(newId);
+        });
+        
+        // Add to donors array
+        donors.push({
+            id: newId,
+            name, email, phone, dob, gender, bloodType, weight,
+            address, city, state, zip, lastDonation, eligibility, notes,
+            totalDonations: 0
+        });
+        
+        // Update stats card
+        const totalDonorsElement = document.querySelectorAll('.stat-card-value')[0];
+        const currentTotal = parseInt(totalDonorsElement.textContent);
+        totalDonorsElement.textContent = currentTotal + 1;
+        
+        // Update eligible count if it's an eligible donor
+        if (eligibility === 'eligible') {
+            const eligibleDonorsElement = document.querySelectorAll('.stat-card-value')[2];
+            const currentEligible = parseInt(eligibleDonorsElement.textContent);
+            eligibleDonorsElement.textContent = currentEligible + 1;
+        }
+        
+        alert('New donor added successfully!');
+    }
+    
+    // Close modal
+    closeDonorModal();
+}
+
+function deleteDonor() {
+    const id = document.getElementById('deleteId').value;
+    const row = document.querySelector(`button.delete-btn[data-id="${id}"]`).closest('tr');
+    
+    // Get eligibility to update the stats
+    const eligibilitySpan = row.cells[6].querySelector('span');
+    const isEligible = eligibilitySpan && eligibilitySpan.classList.contains('status-eligible');
+    
+    // Update stats
+    const totalDonorsElement = document.querySelectorAll('.stat-card-value')[0];
+    const currentTotal = parseInt(totalDonorsElement.textContent);
+    totalDonorsElement.textContent = Math.max(0, currentTotal - 1);
+    
+    if (isEligible) {
+        const eligibleDonorsElement = document.querySelectorAll('.stat-card-value')[2];
+        const currentEligible = parseInt(eligibleDonorsElement.textContent);
+        eligibleDonorsElement.textContent = Math.max(0, currentEligible - 1);
+    }
+    
+    // Remove from donors array
+    const donorIndex = donors.findIndex(d => d.id == id);
+    if (donorIndex !== -1) {
+        donors.splice(donorIndex, 1);
+    }
+    
+    // Remove the row
+    row.remove();
+    
+    // Close modal
+    closeDeleteConfirmModal();
+    alert('Donor deleted successfully!');
+}
+
+function filterDonors() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const bloodTypeValue = bloodTypeFilter.value;
+    const statusValue = statusFilter.value; // Fixed variable name
+    
+    const rows = document.querySelectorAll('#donorsTable tbody tr');
+    
+    rows.forEach(row => {
+        const cells = row.cells;
+        const donorId = cells[0].textContent.toLowerCase();
+        const name = cells[1].textContent.toLowerCase();
+        const email = cells[2].textContent.toLowerCase();
+        const phone = cells[3].textContent.toLowerCase();
+        const bloodType = cells[4].textContent;
+        
+        // Get status from the span class
+        const statusSpan = cells[6].querySelector('span');
+        let rowStatus = '';
+        
+        if (statusSpan) {
+            if (statusSpan.classList.contains('status-eligible')) rowStatus = 'eligible';
+            else if (statusSpan.classList.contains('status-ineligible')) rowStatus = 'ineligible';
+            else if (statusSpan.classList.contains('status-inactive')) rowStatus = 'inactive';
+        }
+        
+        let show = true;
+        
+        // Check search term
+        if (searchTerm && !(
+            donorId.includes(searchTerm) || 
+            name.includes(searchTerm) || 
+            email.includes(searchTerm) || 
+            phone.includes(searchTerm)
+        )) {
+            show = false;
+        }
+        
+        // Check blood type
+        if (bloodTypeValue && bloodType !== bloodTypeValue) {
+            show = false;
+        }
+        
+        // Check status
+        if (statusValue && rowStatus !== statusValue) {
+            show = false;
+        }
+        
+        row.style.display = show ? '' : 'none';
+    });
+}
+
+function resetFilterForm() {
+    searchInput.value = '';
+    bloodTypeFilter.value = '';
+    statusFilter.value = ''; // Fixed variable name
+    
+    // Show all rows
+    const rows = document.querySelectorAll('#donorsTable tbody tr');
+    rows.forEach(row => {
+        row.style.display = '';
+    });
+}
+    </script>
+</body>
+</html>

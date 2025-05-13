@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Blood Donations - LifeFlow</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #f8d7da;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --gray: #adb5bd;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a6a8a;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d65f41;
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218a7e;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            margin-bottom: 0;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card-title {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: rgba(241, 250, 238, 0.5);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            position: relative;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            margin-bottom: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(69, 123, 157, 0.25);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card-title {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .stat-card-description {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pagination-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 0.5rem;
+            border-radius: 4px;
+            background-color: white;
+            color: var(--dark);
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--gray);
+        }
+
+        .pagination-item:hover {
+            background-color: var(--light-gray);
+        }
+
+        .pagination-item.active {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .pagination-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status indicators */
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-low {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        .status-critical {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .status-expired {
+            background-color: var(--gray);
+            color: white;
+        }
+
+        /* Blood type indicators */
+        .blood-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 2rem;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab:hover {
+            color: var(--primary);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Inventory specific */
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .inventory-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .inventory-blood-type {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .inventory-units {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .inventory-status {
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .progress-fill-high {
+            background-color: var(--success);
+            width: 80%;
+        }
+        
+        .progress-fill-medium {
+            background-color: var(--warning);
+            width: 50%;
+        }
+        
+        .progress-fill-low {
+            background-color: var(--danger);
+            width: 20%;
+        }
+        #deleteDonationModal .modal-footer {
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+#deleteDonationModal .btn-outline {
+    border: 1px solid var(--gray);
+    color: var(--dark);
+}
+
+#deleteDonationModal .btn-outline:hover {
+    background-color: var(--light-gray);
+    color: var(--dark);
+}
+
+#deleteDonationModal .btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+#deleteDonationModal .btn-danger:hover {
+    background-color: #d65f41;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.jpg">
+                    <h1>LifeFlow</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                    <li><a href="find-donors.html">Find Donors</a></li>
+                    <li><a href="request.html">Request</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-actions">
+                    <a href="logout.html" class="btn btn-outline">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Manage Blood Donations</h2>
+                <div class="dashboard-actions">
+                    <button class="btn btn-primary" id="addDonationBtn">Record New Donation</button>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="donations">Donations</div>
+                <div class="tab" data-tab="donors">Donor Database</div>
+                <div class="tab" data-tab="inventory">Blood Inventory</div>
+            </div>
+
+            <!-- Stats Cards - Donations Tab -->
+            <div class="tab-content active" id="donationsTab">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-card-title">Total Donations</div>
+                        <div class="stat-card-value">87</div>
+                        <div class="stat-card-description">This month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Processing</div>
+                        <div class="stat-card-value">12</div>
+                        <div class="stat-card-description">Testing stage</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Available Units</div>
+                        <div class="stat-card-value">64</div>
+                        <div class="stat-card-description">Ready for use</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Discarded</div>
+                        <div class="stat-card-value">11</div>
+                        <div class="stat-card-description">Failed screening</div>
+                    </div>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">Search</label>
+                        <input type="text" class="filter-input" id="donationSearchInput" placeholder="Search by donor or ID...">
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Status</label>
+                        <select class="filter-input" id="donationStatusFilter">
+                            <option value="">All Statuses</option>
+                            <option value="processing">Processing</option>
+                            <option value="available">Available</option>
+                            <option value="allocated">Allocated</option>
+                            <option value="discarded">Discarded</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Blood Type</label>
+                        <select class="filter-input" id="donationBloodTypeFilter">
+                            <option value="">All Types</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Date Range</label>
+                        <input type="date" class="filter-input" id="donationDateFilter">
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary filter-btn" id="applyDonationFilters">Apply</button>
+                        <button class="btn btn-outline filter-btn" id="resetDonationFilters">Reset</button>
+                    </div>
+                </div>
+
+                <!-- Donations Table -->
+                <div class="table-responsive">
+                    <table id="donationsTable">
+                        <thead>
+                            <tr>
+                                <th>Donation ID</th>
+                                <th>Donor Name</th>
+                                <th>Blood Type</th>
+                                <th>Units</th>
+                                <th>Donation Date</th>
+                                <th>Expiry Date</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>DON-5001</td>
+                                <td>Michael Johnson</td>
+                                <td><span class="blood-type">O+</span></td>
+                                <td>1</td>
+                                <td>2025-05-03</td>
+                                <td>2025-06-03</td>
+                                <td>Main Blood Center</td>
+                                <td><span class="status status-available">Available</span></td>
+                                <td>
+                                    <button class="btn btn-secondary edit-donation-btn" data-id="1">Edit</button>
+                                    <button class="btn btn-danger delete-donation-btn" data-id="1">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DON-5002</td>
+                                <td>Lisa Parker</td>
+                                <td><span class="blood-type">A-</span></td>
+                                <td>1</td>
+                                <td>2025-05-02</td>
+                                <td>2025-06-02</td>
+                                <td>West Branch</td>
+                                <td><span class="status status-available">Available</span></td>
+                                <td>
+                                    <button class="btn btn-secondary edit-donation-btn" data-id="2">Edit</button>
+                                    <button class="btn btn-danger delete-donation-btn" data-id="2">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DON-5003</td>
+                                <td>James Wilson</td>
+                                <td><span class="blood-type">B+</span></td>
+                                <td>1</td>
+                                <td>2025-05-04</td>
+                                <td>2025-06-04</td>
+                                <td>Mobile Unit #3</td>
+                                <td><span class="status status-processing">Processing</span></td>
+                                <td>
+                                    <button class="btn btn-secondary edit-donation-btn" data-id="3">Edit</button>
+                                    <button class="btn btn-danger delete-donation-btn" data-id="3">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DON-5004</td>
+                                <td>Sofia Rodriguez</td>
+                                <td><span class="blood-type">AB+</span></td>
+                                <td>1</td>
+                                <td>2025-05-01</td>
+                                <td>2025-06-01</td>
+                                <td>Main Blood Center</td>
+                                <td><span class="status status-available">Available</span></td>
+                                <td>
+                                    <button class="btn btn-secondary edit-donation-btn" data-id="4">Edit</button>
+                                    <button class="btn btn-danger delete-donation-btn" data-id="4">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DON-5005</td>
+                                <td>Daniel Smith</td>
+                                <td><span class="blood-type">O-</span></td>
+                                <td>1</td>
+                                <td>2025-05-03</td>
+                                <td>2025-06-03</td>
+                                <td>East Branch</td>
+                                <td><span class="status status-available">Available</span></td>
+                                <td>
+                                   button class="btn btn-secondary edit-donation-btn" data-id="5">Edit</button>
+                                    <button class="btn btn-danger delete-donation-btn" data-id="5">Delete</button>
+                                </td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a class="pagination-item disabled">&laquo;</a>
+                    <a class="pagination-item active">1</a>
+                    <a class="pagination-item">2</a>
+                    <a class="pagination-item">3</a>
+                    <a class="pagination-item">&raquo;</a>
+                </div>
+            </div>
+            
+            <!-- Donors Tab -->
+            <div class="tab-content" id="donorsTab">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-card-title">Total Donors</div>
+                        <div class="stat-card-value">426</div>
+                        <div class="stat-card-description">Registered donors</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Regular Donors</div>
+                        <div class="stat-card-value">193</div>
+                        <div class="stat-card-description">3+ donations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">New Donors</div>
+                        <div class="stat-card-value">47</div>
+                        <div class="stat-card-description">This month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Available Now</div>
+                        <div class="stat-card-value">215</div>
+                        <div class="stat-card-description">Eligible to donate</div>
+                    </div>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">Search</label>
+                        <input type="text" class="filter-input" id="donorSearchInput" placeholder="Search by name, ID, or contact...">
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Blood Type</label>
+                        <select class="filter-input" id="donorBloodTypeFilter">
+                            <option value="">All Types</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Status</label>
+                        <select class="filter-input" id="donorStatusFilter">
+                            <option value="">All Statuses</option>
+                            <option value="available">Available</option>
+                            <option value="notAvailable">Not Available</option><option value="deferred">Deferred</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Last Donation</label>
+                        <select class="filter-input" id="donorLastDonationFilter">
+                            <option value="">Any Time</option>
+                            <option value="30">Last 30 Days</option>
+                            <option value="90">Last 3 Months</option>
+                            <option value="180">Last 6 Months</option>
+                            <option value="365">Last Year</option>
+                            <option value="never">Never Donated</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary filter-btn" id="applyDonorFilters">Apply</button>
+                        <button class="btn btn-outline filter-btn" id="resetDonorFilters">Reset</button>
+                    </div>
+                </div>
+
+                <!-- Donors Table -->
+                <div class="table-responsive">
+                    <table id="donorsTable">
+                        <thead>
+                            <tr>
+                                <th>Donor ID</th>
+                                <th>Name</th>
+                                <th>Blood Type</th>
+                                <th>Contact</th>
+                                <th>Last Donation</th>
+                                <th>Total Donations</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>DNR-1001</td>
+                                <td>Michael Johnson</td>
+                                <td><span class="blood-type">O+</span></td>
+                                <td>michael.j@example.com</td>
+                                <td>2025-05-03</td>
+                                <td>7</td>
+                                <td><span class="status status-low">Not Available</span></td>
+                                <td>
+                                    <button class="btn btn-secondary view-donor-btn" data-id="1001">View</button>
+                                    <button class="btn btn-primary contact-donor-btn" data-id="1001">Contact</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DNR-1002</td>
+                                <td>Lisa Parker</td>
+                                <td><span class="blood-type">A-</span></td>
+                                <td>lisa.p@example.com</td>
+                                <td>2025-05-02</td>
+                                <td>4</td>
+                                <td><span class="status status-low">Not Available</span></td>
+                                <td>
+                                    <button class="btn btn-secondary view-donor-btn" data-id="1002">View</button>
+                                    <button class="btn btn-primary contact-donor-btn" data-id="1002">Contact</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DNR-1003</td>
+                                <td>James Wilson</td>
+                                <td><span class="blood-type">B+</span></td>
+                                <td>james.w@example.com</td>
+                                <td>2025-05-04</td>
+                                <td>2</td>
+                                <td><span class="status status-low">Not Available</span></td>
+                                <td>
+                                    <button class="btn btn-secondary view-donor-btn" data-id="1003">View</button>
+                                    <button class="btn btn-primary contact-donor-btn" data-id="1003">Contact</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DNR-1004</td>
+                                <td>Sofia Rodriguez</td>
+                                <td><span class="blood-type">AB+</span></td>
+                                <td>sofia.r@example.com</td>
+                                <td>2025-05-01</td>
+                                <td>3</td>
+                                <td><span class="status status-low">Not Available</span></td>
+                                <td>
+                                    <button class="btn btn-secondary view-donor-btn" data-id="1004">View</button>
+                                    <button class="btn btn-primary contact-donor-btn" data-id="1004">Contact</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DNR-1005</td>
+                                <td>Daniel Smith</td>
+                                <td><span class="blood-type">O-</span></td>
+                                <td>daniel.s@example.com</td>
+                                <td>2025-05-03</td>
+                                <td>9</td>
+                                <td><span class="status status-low">Not Available</span></td>
+                                <td>
+                                    <button class="btn btn-secondary view-donor-btn" data-id="1005">View</button>
+                                    <button class="btn btn-primary contact-donor-btn" data-id="1005">Contact</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DNR-1006</td>
+                                <td>Emma Thompson</td>
+                                <td><span class="blood-type">A+</span></td>
+                                <td>emma.t@example.com</td>
+                                <td>2025-03-15</td>
+                                <td>5</td>
+                                <td><span class="status status-available">Available</span></td>
+                                <td>
+                                    <button class="btn btn-secondary view-donor-btn" data-id="1006">View</button>
+                                    <button class="btn btn-primary contact-donor-btn" data-id="1006">Contact</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a class="pagination-item disabled">&laquo;</a>
+                    <a class="pagination-item active">1</a>
+                    <a class="pagination-item">2</a>
+                    <a class="pagination-item">3</a>
+                    <a class="pagination-item">&raquo;</a>
+                </div>
+            </div>
+            
+            <!-- Blood Inventory Tab -->
+            <div class="tab-content" id="inventoryTab">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-card-title">Total Units</div>
+                        <div class="stat-card-value">217</div>
+                        <div class="stat-card-description">Available units</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Critical Types</div>
+                        <div class="stat-card-value">2</div>
+                        <div class="stat-card-description">Below threshold</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Expiring Soon</div>
+                        <div class="stat-card-value">18</div>
+                        <div class="stat-card-description">Within 7 days</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Used This Month</div>
+                        <div class="stat-card-value">93</div>
+                        <div class="stat-card-description">Allocated units</div>
+                    </div>
+                </div>
+
+                <!-- Inventory Cards -->
+                <div class="inventory-grid">
+                    <div class="inventory-card">
+                        <div class="inventory-blood-type">A+</div>
+                        <div class="inventory-units">42 units</div>
+                        <div class="inventory-status"><span class="status status-available">Good Supply</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-fill-high"></div>
+                        </div>
+                        <div class="inventory-actions">
+                            <button class="btn btn-secondary">Details</button>
+                        </div>
+                    </div>
+                    <div class="inventory-card">
+                        <div class="inventory-blood-type">A-</div>
+                        <div class="inventory-units">16 units</div>
+                        <div class="inventory-status"><span class="status status-low">Low Supply</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-fill-medium"></div>
+                        </div>
+                        <div class="inventory-actions">
+                            <button class="btn btn-secondary">Details</button>
+                        </div>
+                    </div>
+                    <div class="inventory-card">
+                        <div class="inventory-blood-type">B+</div>
+                        <div class="inventory-units">31 units</div>
+                        <div class="inventory-status"><span class="status status-available">Good Supply</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-fill-high"></div>
+                        </div>
+                        <div class="inventory-actions">
+                            <button class="btn btn-secondary">Details</button>
+                        </div>
+                    </div>
+                    <div class="inventory-card">
+                        <div class="inventory-blood-type">B-</div>
+                        <div class="inventory-units">8 units</div>
+                        <div class="inventory-status"><span class="status status-low">Low Supply</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-fill-medium"></div>
+                        </div>
+                        <div class="inventory-actions">
+                            <button class="btn btn-secondary">Details</button>
+                        </div>
+                    </div>
+                    <div class="inventory-card">
+                        <div class="inventory-blood-type">AB+</div>
+                        <div class="inventory-units">19 units</div>
+                        <div class="inventory-status"><span class="status status-available">Good Supply</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-fill-high"></div>
+                        </div>
+                        <div class="inventory-actions">
+                            <button class="btn btn-secondary">Details</button>
+                        </div>
+                    </div>
+                    <div class="inventory-card">
+                        <div class="inventory-blood-type">AB-</div>
+                        <div class="inventory-units">11 units</div>
+                        <div class="inventory-status"><span class="status status-low">Low Supply</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-fill-medium"></div>
+                        </div>
+                        <div class="inventory-actions">
+                            <button class="btn btn-secondary">Details</button>
+                        </div>
+                    </div>
+                    <div class="inventory-card">
+                        <div class="inventory-blood-type">O+</div>
+                        <div class="inventory-units">85 units</div>
+                        <div class="inventory-status"><span class="status status-available">Good Supply</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-fill-high"></div>
+                        </div>
+                        <div class="inventory-actions">
+                            <button class="btn btn-secondary">Details</button>
+                        </div>
+                    </div>
+                    <div class="inventory-card">
+                        <div class="inventory-blood-type">O-</div>
+                        <div class="inventory-units">5 units</div>
+                        <div class="inventory-status"><span class="status status-critical">Critical</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-fill-low"></div>
+                        </div>
+                        <div class="inventory-actions">
+                            <button class="btn btn-secondary">Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Inventory Actions -->
+                <div class="inventory-actions" style="text-align: center; margin-bottom: 2rem;">
+                    <button class="btn btn-primary">Generate Inventory Report</button>
+                    <button class="btn btn-secondary">Update Stock Levels</button>
+                    <button class="btn btn-outline">Set Threshold Alerts</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add New Donation Modal -->
+    <div class="modal-overlay" id="deleteDonationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close" id="closeDeleteDonationModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this donation? This action cannot be undone.</p>
+                <input type="hidden" id="deleteDonationId">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelDeleteDonation">Cancel</button>
+                <button class="btn btn-danger" id="confirmDeleteDonation">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="addDonationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Record New Donation</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addDonationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="donorId">Donor ID</label>
+                            <input type="text" class="form-control" id="donorId" placeholder="Enter donor ID">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="donorName">Donor Name</label>
+                            <input type="text" class="form-control" id="donorName" placeholder="Enter donor name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="bloodType">Blood Type</label>
+                            <select class="form-control" id="bloodType">
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="units">Units</label>
+                            <input type="number" class="form-control" id="units" value="1" min="1" max="2">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="donationDate">Donation Date</label>
+                            <input type="date" class="form-control" id="donationDate" value="2025-05-06">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="location">Donation Location</label>
+                            <select class="form-control" id="location">
+                                <option value="Main Blood Center">Main Blood Center</option>
+                                <option value="West Branch">West Branch</option>
+                                <option value="East Branch">East Branch</option>
+                                <option value="Mobile Unit #1">Mobile Unit #1</option>
+                                <option value="Mobile Unit #2">Mobile Unit #2</option>
+                                <option value="Mobile Unit #3">Mobile Unit #3</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="notes">Notes</label>
+                        <textarea class="form-control" id="notes" rows="3" placeholder="Additional notes"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelAddDonation">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveAddDonation">Save Donation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Donation Modal -->
+    <div class="modal-overlay" id="editDonationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Donation</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editDonationForm">
+                    <input type="hidden" id="editDonationId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editDonorName">Donor Name</label>
+                            <input type="text" class="form-control" id="editDonorName" placeholder="Enter donor name" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editBloodType">Blood Type</label>
+                            <select class="form-control" id="editBloodType" disabled>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editStatus">Status</label>
+                            <select class="form-control" id="editStatus">
+                                <option value="processing">Processing</option>
+                                <option value="available">Available</option>
+                                <option value="allocated">Allocated</option>
+                                <option value="discarded">Discarded</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editLocation">Location</label>
+                            <select class="form-control" id="editLocation">
+                                <option value="Main Blood Center">Main Blood Center</option>
+                                <option value="West Branch">West Branch</option>
+                                <option value="East Branch">East Branch</option>
+                                <option value="Storage Facility">Storage Facility</option>
+                                <option value="Hospital">Hospital</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="editNotes">Notes</label>
+                        <textarea class="form-control" id="editNotes" rows="3" placeholder="Additional notes"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelEditDonation">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveEditDonation">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Donor Modal -->
+    <div class="modal-overlay" id="viewDonorModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Donor Information</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="donor-profile">
+                    <div class="donor-header">
+                        <div class="donor-name" id="viewDonorName">Loading...</div>
+                        <div class="donor-blood-type" id="viewDonorBloodType">--</div>
+                    </div>
+                    
+                    <div class="donor-details">
+                        <div class="donor-detail">
+                            <span class="donor-detail-label">Donor ID:</span>
+                            <span class="donor-detail-value" id="viewDonorId">--</span>
+                        </div>
+                        <div class="donor-detail">
+                            <span class="donor-detail-label">Contact:</span>
+                            <span class="donor-detail-value" id="viewDonorContact">--</span>
+                        </div>
+                        <div class="donor-detail">
+                            <span class="donor-detail-label">Date of Birth:</span>
+                            <span class="donor-detail-value" id="viewDonorDob">--</span>
+                        </div>
+                        <div class="donor-detail">
+                            <span class="donor-detail-label">Total Donations:</span>
+                            <span class="donor-detail-value" id="viewDonorTotalDonations">--</span>
+                        </div>
+                        <div class="donor-detail">
+                            <span class="donor-detail-label">Last Donation:</span>
+                            <span class="donor-detail-value" id="viewDonorLastDonation">--</span>
+                        </div>
+                        <div class="donor-detail">
+                            <span class="donor-detail-label">Next Eligible Date:</span>
+                            <span class="donor-detail-value" id="viewDonorNextEligible">--</span>
+                        </div>
+                    </div>
+                    
+                    <div class="donor-medical">
+                        <h4>Medical Information</h4>
+                        <div class="donor-detail">
+                            <span class="donor-detail-label">Medical Conditions:</span>
+                            <span class="donor-detail-value" id="viewDonorMedicalConditions">None</span>
+                        </div>
+                        <div class="donor-detail">
+                            <span class="donor-detail-label">Medications:</span>
+                            <span class="donor-detail-value" id="viewDonorMedications">None</span>
+                        </div>
+                        <div class="donor-detail">
+                            <span class="donor-detail-label">Allergies:</span>
+                            <span class="donor-detail-value" id="viewDonorAllergies">None</span>
+                        </div>
+                    </div>
+                    
+                    <div class="donor-donation-history">
+                        <h4>Donation History</h4>
+                        <table class="donor-history-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Units</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="donorHistoryTableBody">
+                                <!-- Donation history will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="closeViewDonor">Close</button>
+                <button type="button" class="btn btn-secondary" id="editDonorBtn">Edit Donor</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">LifeFlow</div>
+                    <p>Connecting donors to those in need, one drop at a time.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="find-donors.html">Find Donors</a></li>
+                        <li><a href="request.html">Request Blood</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                        <li><a href="donor-guide.html">Donor Guide</a></li>
+                        <li><a href="recipient-guide.html">Recipient Guide</a></li>
+                        <li><a href="research.html">Research</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                        <li><a href="mailto:info@lifeflow.org">info@lifeflow.org</a></li>
+                        <li>123 Blood Center Avenue,<br>Cityville, ST 12345</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeFlow Blood Donation Center. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        //delete functionality
+        const deleteDonationModal = document.getElementById('deleteDonationModal');
+const closeDeleteDonationModal = document.getElementById('closeDeleteDonationModal');
+const cancelDeleteDonation = document.getElementById('cancelDeleteDonation');
+const confirmDeleteDonation = document.getElementById('confirmDeleteDonation');
+const deleteDonationId = document.getElementById('deleteDonationId');
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Update active tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Update active content
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(tabId + 'Tab').classList.add('active');
+            });
+        });
+        
+        // Modal functionality
+        const showModal = (modalId) => {
+            document.getElementById(modalId).style.display = 'flex';
+        };
+        
+        const closeModal = (modalId) => {
+            document.getElementById(modalId).style.display = 'none';
+        };
+        
+        // Add donation button
+        document.getElementById('addDonationBtn').addEventListener('click', () => {
+            showModal('addDonationModal');
+        });
+        
+        // Close modal buttons
+        document.querySelectorAll('.modal-close, #cancelAddDonation, #cancelEditDonation, #closeViewDonor').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            });
+        });
+        
+        // Edit donation buttons
+        document.querySelectorAll('.edit-donation-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const donationId = button.getAttribute('data-id');
+                // In a real app, we would fetch the donation data here
+                document.getElementById('editDonationId').value = donationId;
+                showModal('editDonationModal');
+            });
+        });
+        
+        // View donor buttons
+        document.querySelectorAll('.view-donor-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const donorId = button.getAttribute('data-id');
+                // In a real app, we would fetch the donor data here
+                showModal('viewDonorModal');
+            });
+        });
+        
+        // Save buttons (just close modals for demo)
+        document.querySelectorAll('#saveAddDonation, #saveEditDonation').forEach(button => {
+            button.addEventListener('click', () => {
+                // In a real app, we would save the data here
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+                alert('Changes saved successfully!');
+            });
+        });
+        
+document.querySelectorAll('.delete-donation-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const donationId = e.target.getAttribute('data-id');
+        deleteDonationId.value = donationId;
+        deleteDonationModal.style.display = 'flex';
+    });
+});
+
+// Close delete confirmation modal
+closeDeleteDonationModal.addEventListener('click', () => {
+    deleteDonationModal.style.display = 'none';
+});
+
+cancelDeleteDonation.addEventListener('click', () => {
+    deleteDonationModal.style.display = 'none';
+});
+
+// Confirm deletion
+confirmDeleteDonation.addEventListener('click', () => {
+    const idToDelete = deleteDonationId.value;
+    
+    // Remove from data array
+    donations = donations.filter(donation => donation.id !== idToDelete);
+    
+    // Remove from table
+    const tableBody = document.querySelector('#donationsTable tbody');
+    const rows = tableBody.getElementsByTagName('tr');
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].querySelector('.delete-donation-btn').getAttribute('data-id') === idToDelete) {
+            tableBody.deleteRow(i);
+            break;
+        }
+    }
+    
+    // Close modal and show success message
+    deleteDonationModal.style.display = 'none';
+    alert('Donation deleted successfully!');
+});
+    </script>
+</body>
+</html>
